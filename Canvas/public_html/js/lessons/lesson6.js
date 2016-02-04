@@ -1,12 +1,3 @@
-/*ЗАДАНИЕ*****
- * Пробовать рисование этих простых фигур, создать конструктор 
- * для объектов классов Line, Circle, Rectangular, в которых 
- * вы опишите их свойства и методы (толщина линии, угол поворота, 
- * размеры и координаты).
- */
-
-
-
 var canvas = document.getElementById('myCanvas');
 var context = canvas.getContext('2d');
 
@@ -51,8 +42,8 @@ function Circle (x, y, r, startAngle, endAngle) {
     this.r = r;
     this.startAng = startAngle;
     this.endAng = endAngle;
-    this.color = '';
-//    this.width = undefined;
+    this.color = 'black';
+    this.width = 5;
     this.draw = function(ctx){
         ctx.save();
         ctx.beginPath();
@@ -68,6 +59,11 @@ function Circle (x, y, r, startAngle, endAngle) {
     this.setWidth = function(newWidth) {
         me.width = newWidth;
     };
+    this.setPosition = function(x, y) {
+        me.x = x;
+        me.y = y;
+    };
+    
 };
 
 function Rectungle (x, y, width, height) {
@@ -99,7 +95,45 @@ function Rectungle (x, y, width, height) {
     
 };
 
-var line1 = new Line(0, 0, 750, 45);
+var arr = [];
+var i = 0;
+
+for(i = 0; i<5; i++) {
+    var circle = new Circle(i*20+10, i*30+20, i*15+15, 0, 7);
+//    circle.setPosition(i*10+10, i*20+20);
+    arr.push(circle);    
+    arr[arr.length - 1].draw(context);
+};
+
+for(i = 0; i<3; i++) {
+    
+    arr[i].setPosition(i*10+10, i*20+20);
+    arr[i].draw(context);
+};
+var counter = 0;
+function update(){
+    counter++;
+    console.log(counter);
+    redraw();
+    window.requestAnimationFrame(update);
+};
+update();
+
+
+function redraw(){
+       context.clearRect(0, 0, canvas.width, canvas.height);
+    for(i = 0; i<5; i++){
+        arr[i].setPosition(counter*1, counter*0,2+80);
+        arr[i].draw(context);
+    };
+};
+/*window.requestAnimationFrame(function(){
+    counter++;
+    console.log(counter);
+});*/
+//console.log(arr);
+
+/*var line1 = new Line(0, 0, 750, 45);
 line1.setColor('grey');
 line1.setWidth(3);
 line1.setRotation(0);
@@ -122,3 +156,5 @@ var rectungle = new Rectungle(145, 145, 210, 210);
 rectungle.setColor('blue');
 rectungle.setLineWidth(4);
 rectungle.draw(context);
+*/
+
