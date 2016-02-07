@@ -110,20 +110,22 @@ for(i = 0; i<3; i++) {
     arr[i].setPosition(i*10+10, i*20+20);
     arr[i].draw(context);
 };
+
 var counter = 0;
 function update(){
     counter++;
     console.log(counter);
     redraw();
+   
     window.requestAnimationFrame(update);
 };
-update();
+//update();
 
 
 function redraw(){
        context.clearRect(0, 0, canvas.width, canvas.height);
     for(i = 0; i<5; i++){
-        arr[i].setPosition(counter*1, counter*0,2+80);
+        arr[i].setPosition(counter*1, counter*2+80);
         arr[i].draw(context);
     };
 };
