@@ -26,9 +26,8 @@ function Circle(x, y, r){
     this.speedY = parseInt(Math.random()*10) + 1;
     this.speed = parseInt(Math.random()*10) + 1;
     var time = 0;
-    this.redraw = function(){
-        time++;
-        console.log(time);
+    this.update = function(){
+        
         if((me.x + me.speedX > canvas.width) || (me.x + me.speedX< 0)){
             me.speedX = -me.speedX;
             me.setPosition(me.x + me.speedX, me.y + me.speedY);
@@ -43,6 +42,11 @@ function Circle(x, y, r){
         };
         me.setPosition(me.x + me.speedX, me.y + me.speedY);
         me.draw(context);
+    };
+    this.redraw = function(){
+        time++;
+        console.log(time);
+        me.update();
     };
 };
 
