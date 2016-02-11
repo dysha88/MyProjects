@@ -11,12 +11,15 @@ function Texture(fileName){
         me.loaded = true;
     };
     this.image.src = fileName;
+    this.update = function(){
+        
+    };
     this.x = 0;
     this.y = 0;
     this.setPosition = function (x, y){
         me.x = x;
         me.y = y;
-    }
+    };
     this.draw = function(ctx){
         if(me.loaded){
             ctx.save();
