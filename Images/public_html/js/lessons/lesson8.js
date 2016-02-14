@@ -128,6 +128,10 @@ document.addEventListener('keyup', function(event){
 });
 
 // шаблон програмирования "наблюдатель"
+
+
+
+
 var events = {
     fire : []
 };
@@ -158,3 +162,5 @@ function fireEvent(eventName, params){
     };
 };
 //fireEvent('fire');
+
+
