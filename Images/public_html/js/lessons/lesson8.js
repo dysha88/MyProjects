@@ -37,7 +37,7 @@ function Texture(fileName){
     }
     //turn right
     if(me.controls.key39){
-        me.turnLeft();        
+        me.turnLeft();         
     }
     if(me.controls.key32){
         fireEvent('fire', {
