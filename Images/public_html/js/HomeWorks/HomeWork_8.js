@@ -53,7 +53,7 @@ function Texture(fileName) {
     this.width = 150;
     this.height = 150;
     this.rotation = 0;
-    this.maxSpeed = 5;
+    this.maxSpeed = 8;
     this.currentSpeed = 0;
     this.aceleration = 0.25;
     this.loaded = false;
@@ -63,7 +63,8 @@ function Texture(fileName) {
         key38: false, //up
         key39: false, //right
         key40: false, //back 
-        key32: false //FIRE!!! Space
+        key32: false, //FIRE!!! Space
+        key17: false  //bomb!!!! Alt
     };
 // Creating property 'image' which is an exemplar of class Image    
     this.image = new Image();
@@ -101,6 +102,14 @@ function Texture(fileName) {
                 direction: me.rotation
             });
         }
+// push the bomb
+        if (me.controls.key17) {
+            fireEvent('drop', {
+                x: me.x,
+                y: me.y,
+                direction: me.rotation
+            });
+        }
 
         me.x = me.x + Math.cos(me.rotation) * me.currentSpeed;
         me.y = me.y + Math.sin(me.rotation) * me.currentSpeed;
@@ -111,12 +120,10 @@ function Texture(fileName) {
 // Creating method 'turnLeft' which change image direction to left  
     this.turnLeft = function () {
         me.rotation = me.rotation - 0.1;
-        console.log(me.rotation);
     };
 // Creating method 'turnRight' which change image direction to right      
     this.turnRight = function () {
         me.rotation = me.rotation + 0.1;
-        console.log(me.rotation);
     };
 // Creating method 'moveForward' which can move the image to forward      
     this.moveForward = function () {
@@ -141,18 +148,17 @@ function Texture(fileName) {
 // Creating method 'bounceBack' which don't do the possibility to move our image outside the area      
     this.bounceBack = function () {
         if (me.x >= WIDTH) {
-            me.x = WIDTH - 10;
+            me.x = WIDTH - 5;
         }
         if (me.x <= 0) {
-            me.x = 0 + 10;
+            me.x = 0 + 5;
         }
         ;
-        if (me.y >= HEIGHT) {
+        if (me.y + me.height/2 >= HEIGHT) {
             this.image.src = 'images/boom.png';
-            me.width = 100;
-            me.height = 100;
             me.currentSpeed = 0;
             me.aceleration = 0;
+            me.rotation = -1.5 ;
         }
         if (me.y <= 0) {
             me.y = 0 + 10;
@@ -176,13 +182,45 @@ function Texture(fileName) {
     };
 }
 ;
-// Creating constructor of class Bullet to describe the bombs and there properties
+// Creating constructor of class Bullet to describe the bullets and there properties
 function Bullet(fileName, params) {
     var me = this;
     this.x = params.x;
     this.y = params.y;
-    this.width = 50;
-    this.height = 50;
+    this.width = 30;
+    this.height = 30;
+    this.rotation = params.direction;
+    this.speed = 5;
+    this.loaded = false;
+    this.image = new Image();
+    this.image.onload = function () {
+        me.loaded = true;
+    };
+    this.image.src = fileName;
+    this.draw = function (ctx) {
+        if (me.loaded) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.translate(me.x, me.y);
+            ctx.rotate(0);
+            ctx.drawImage(me.image, -me.width / 2, -me.height, me.width, me.height);
+            ctx.restore();
+        }
+        ;
+    };
+    this.update = function () {
+        me.x = me.x + Math.cos(me.rotation) * me.speed;
+        me.y = me.y + Math.sin(me.rotation) * me.speed;
+    };
+};
+
+// Creating constructor of class Bomb to describe the bombs and there properties
+function Bomb(fileName, params) {
+    var me = this;
+    this.x = params.x;
+    this.y = params.y;
+    this.width = 30;
+    this.height = 30;
     this.rotation = params.direction;
     this.speed = 5;
     this.loaded = false;
@@ -205,15 +243,14 @@ function Bullet(fileName, params) {
     this.update = function () {
         //    me.speed++;
         if (me.y < HEIGHT) {
-            me.x = me.x + Math.cos(me.rotation) * me.speed;
-            me.y = me.y + Math.sin(me.rotation) * me.speed;
-            console.log(me.x, me.y);
+            me.x = me.x - Math.cos(89.55) * me.speed;
+            me.y = me.y - Math.sin(180.5) * me.speed;
         }
         ;
         if (me.y == HEIGHT) {
             this.image.src = 'images/boom.png';
-            me.width = 80;
-            me.height = 80;
+            me.width = 50;
+            me.height = 50;
         }
         ;
         if (me.y > HEIGHT) {
@@ -221,8 +258,7 @@ function Bullet(fileName, params) {
         }
         ;
     };
-}
-;
+};
 
 var back = new Background(WIDTH / 2, HEIGHT, WIDTH / 2, 0, 'yellow', 'skyblue', 'lightskyblue', 0, 0, WIDTH, HEIGHT);
 
@@ -249,7 +285,8 @@ document.addEventListener('keyup', function (event) {
 });
 
 var events = {
-    fire: []
+    fire: [],
+    drop: []
 };
 
 function addListener(eventName, functionCallback) {
@@ -268,11 +305,14 @@ function fireEvent(eventName, params) {
 addListener('fire', function (params) {
     console.log('fire event was fired', params);
 
-    var bullet = new Bullet('images/bomb.png', params);
+    var bullet = new Bullet('images/bullet.png', params);
     drawElements.push(bullet);
 });
 
-addListener('fire', function (params) {
-    console.log('Call fire sound', params);
+addListener('drop', function (params) {
+    console.log('Bomb was dropped', params);
+    
+    var bomb = new Bomb('images/bomb.png', params);
+    drawElements.push(bomb);
 });
 
