@@ -143,6 +143,15 @@ events.fire.push(function(){
     console.log('Call fire sound');
 });
 */
+function addListener (eventName, functionCallback){
+    events[eventName].push(functionCallback);
+};
+function fireEvent(eventName, params){
+    for(var i = 0; i < events[eventName].length; i++){
+        events[eventName][i](params);
+    };
+};
+
 addListener('fire', function(params){
     console.log('fire event was fired', params);
     
@@ -153,14 +162,7 @@ addListener('fire', function(params){
     console.log('Call fire sound', params);
 });
 
-function addListener (eventName, functionCallback){
-    events[eventName].push(functionCallback);
-};
-function fireEvent(eventName, params){
-    for(var i = 0; i < events[eventName].length; i++){
-        events[eventName][i](params);
-    };
-};
+
 //fireEvent('fire');
 
 

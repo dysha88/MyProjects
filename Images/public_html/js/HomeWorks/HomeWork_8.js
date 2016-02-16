@@ -10,6 +10,52 @@ var context = canvas.getContext('2d');
 var WIDTH = canvas.width;
 var HEIGHT = canvas.height;
 
+function Rules(x, y, width, height){
+    var me = this;
+    this.messages = [];
+    this.addMessage = function(message){
+        me.messages.push(message);
+    };
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.color = 'red';
+    this.lineWidth = 3;
+    this.lineHeight = 20;
+    
+    
+    this.draw = function(ctx) {
+        var tempObj, 
+                maxTextWidth=0;
+        
+        ctx.save();
+        
+        ctx.font = '11pt Calibri';
+        ctx.fillStyle = 'black';
+        for(i = 0; i <me.messages.length; i++){
+            ctx.fillText(me.messages[i], me.x + 10, me.y + 15 + i*20);
+            
+            tempObj = ctx.measureText(me.messages[i]);
+            
+            if(tempObj.width>maxTextWidth){
+                maxTextWidth = tempObj.width;
+            }
+        };
+        
+        ctx.beginPath();
+        ctx.rect(me.x, me.y, maxTextWidth+20, me.lineHeight*me.messages.length);
+        ctx.strokeStyle = me.color;
+        ctx.lineWidth = me.lineWidth;
+        ctx.stroke();
+        
+        ctx.restore();
+    };
+    this.update = function(){
+        
+    };
+};
+
 // Create constructor of class Background to background for canvas
 function Background(xStart, yStart, xEnd, yEnd, color1, color2, color3, xRect, yRect, width, height) {
     var me = this;
@@ -51,11 +97,12 @@ function Texture(fileName) {
     this.x = 0;
     this.y = 0;
     this.width = 150;
-    this.height = 150;
+    this.height = 250;
     this.rotation = 0;
     this.maxSpeed = 8;
     this.currentSpeed = 0;
     this.aceleration = 0.25;
+    this.aceleration1 = 0.1;
     this.loaded = false;
 // Creating object property 'controls' which contain object with keyboard buttons property
     this.controls = {
@@ -64,7 +111,8 @@ function Texture(fileName) {
         key39: false, //right
         key40: false, //back 
         key32: false, //FIRE!!! Space
-        key17: false  //bomb!!!! Alt
+        key17: false,  //bomb!!!! Alt
+        button1: false
     };
 // Creating property 'image' which is an exemplar of class Image    
     this.image = new Image();
@@ -110,6 +158,9 @@ function Texture(fileName) {
                 direction: me.rotation
             });
         }
+        if (me.controls.button1) {
+            me.moveTo();
+        }
 
         me.x = me.x + Math.cos(me.rotation) * me.currentSpeed;
         me.y = me.y + Math.sin(me.rotation) * me.currentSpeed;
@@ -134,7 +185,7 @@ function Texture(fileName) {
      };
 
     this.deaccelerate = function () {
-        me.currentSpeed = me.currentSpeed - me.aceleration;
+        me.currentSpeed = me.currentSpeed - me.aceleration1;
         if (me.currentSpeed < 0) {
             me.currentSpeed = 0;
         }
@@ -142,13 +193,12 @@ function Texture(fileName) {
 
 // Creating method 'moveBack' which can move the image to back      
     this.moveBack = function () {
-//        me.speed++;
 
     };
 // Creating method 'bounceBack' which don't do the possibility to move our image outside the area      
     this.bounceBack = function () {
-        if (me.x >= WIDTH) {
-            me.x = WIDTH - 5;
+        if (me.x + me.height >= WIDTH) {
+            me.x = WIDTH - me.width;
         }
         if (me.x <= 0) {
             me.x = 0 + 5;
@@ -156,6 +206,9 @@ function Texture(fileName) {
         ;
         if (me.y + me.height/2 >= HEIGHT) {
             this.image.src = 'images/boom.png';
+            me.width = 150;
+            me.height = 150;
+            me.y = HEIGHT - me.height/2;
             me.currentSpeed = 0;
             me.aceleration = 0;
             me.rotation = -1.5 ;
@@ -168,6 +221,14 @@ function Texture(fileName) {
 //     
     this.setKey = function (keyCode, keyState) {
         me.controls['key' + keyCode] = keyState;
+    };
+    
+    this.setButton = function (keyCode, keyState) {
+        me.controls['button' + keyCode] = keyState;
+    };
+    this.moveTo = function(xPosition, yPosition){
+        me.x = xPosition;
+        me.y = yPosition;
     };
     this.draw = function (ctx) {
         if (me.loaded) {
@@ -202,8 +263,8 @@ function Bullet(fileName, params) {
             ctx.save();
             ctx.beginPath();
             ctx.translate(me.x, me.y);
-            ctx.rotate(0);
-            ctx.drawImage(me.image, -me.width / 2, -me.height, me.width, me.height);
+            ctx.rotate(me.rotation);
+            ctx.drawImage(me.image, me.width, me.height, me.width, me.height);
             ctx.restore();
         }
         ;
@@ -219,8 +280,8 @@ function Bomb(fileName, params) {
     var me = this;
     this.x = params.x;
     this.y = params.y;
-    this.width = 30;
-    this.height = 30;
+    this.width = 40;
+    this.height = 69;
     this.rotation = params.direction;
     this.speed = 5;
     this.loaded = false;
@@ -241,7 +302,6 @@ function Bomb(fileName, params) {
         ;
     };
     this.update = function () {
-        //    me.speed++;
         if (me.y < HEIGHT) {
             me.x = me.x - Math.cos(89.55) * me.speed;
             me.y = me.y - Math.sin(180.5) * me.speed;
@@ -263,25 +323,42 @@ function Bomb(fileName, params) {
 var back = new Background(WIDTH / 2, HEIGHT, WIDTH / 2, 0, 'yellow', 'skyblue', 'lightskyblue', 0, 0, WIDTH, HEIGHT);
 
 var plane = new Texture('images/plane.png');
+var rule = new Rules(WIDTH - 180, 10, 179, 40);
+rule.addMessage('Thow Bomb: Press Ctrl');
+rule.addMessage('Make piu-piu: Press Space');
 var drawElements = [];
 drawElements.push(back);
 drawElements.push(plane);
+drawElements.push(rule);
 
 setInterval(function () {
     context.clearRect(0, 0, 600, 600);
     for (var i = 0; i < drawElements.length; i++) {
+        //  deleted some elements from array drawElements
+//        if(drawElements.length > 50){
+//            for(i = 3; i < 10; i++){
+//                delete drawElements[i];
+//            };
+//        };
         drawElements[i].update();
         drawElements[i].draw(context);
     }
-
 }, 50);
 
 document.addEventListener('keydown', function (event) {
     plane.setKey(event.keyCode, true);
+//    console.log(event);
 });
 
 document.addEventListener('keyup', function (event) {
     plane.setKey(event.keyCode, false);
+//    console.log(event);
+});
+
+document.addEventListener('mousedown', function (event){
+    plane.setButton(event.button, false);   
+    plane.moveTo(event.x, event.y);
+//   console.log(event);
 });
 
 var events = {
@@ -307,6 +384,7 @@ addListener('fire', function (params) {
 
     var bullet = new Bullet('images/bullet.png', params);
     drawElements.push(bullet);
+//    console.log(drawElements);
 });
 
 addListener('drop', function (params) {
@@ -315,4 +393,5 @@ addListener('drop', function (params) {
     var bomb = new Bomb('images/bomb.png', params);
     drawElements.push(bomb);
 });
+
 
