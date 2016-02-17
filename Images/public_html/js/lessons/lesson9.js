@@ -1,19 +1,13 @@
-/* 
- И так, ДЗ: Создать объекты типа Текстура (чтоюы можно было 
- организовать задний фон), игрок у вас уже есть, объкты типа 
- Пуля - которая сразу после создания начинает лететь в том 
- направлении в котором смотрит игрок.
- */
 
 var canvas = document.getElementById('myCanvas');
 var context = canvas.getContext('2d');
 var WIDTH = canvas.width;
 var HEIGHT = canvas.height;
 
-function Rules(x, y, width, height){
+function Rules(x, y, width, height) {
     var me = this;
     this.messages = [];
-    this.addMessage = function(message){
+    this.addMessage = function (message) {
         me.messages.push(message);
     };
     this.x = x;
@@ -23,38 +17,40 @@ function Rules(x, y, width, height){
     this.color = 'red';
     this.lineWidth = 3;
     this.lineHeight = 20;
-    
-    
-    this.draw = function(ctx) {
-        var tempObj, 
-                maxTextWidth=0;
-        
+
+
+    this.draw = function (ctx) {
+        var tempObj,
+                maxTextWidth = 0;
+
         ctx.save();
-        
+
         ctx.font = '11pt Calibri';
         ctx.fillStyle = 'black';
-        for(i = 0; i <me.messages.length; i++){
-            ctx.fillText(me.messages[i], me.x + 10, me.y + 15 + i*20);
-            
+        for (i = 0; i < me.messages.length; i++) {
+            ctx.fillText(me.messages[i], me.x + 10, me.y + 15 + i * 20);
+
             tempObj = ctx.measureText(me.messages[i]);
-            
-            if(tempObj.width>maxTextWidth){
+
+            if (tempObj.width > maxTextWidth) {
                 maxTextWidth = tempObj.width;
             }
-        };
-        
+        }
+        ;
+
         ctx.beginPath();
-        ctx.rect(me.x, me.y, maxTextWidth+20, me.lineHeight*me.messages.length);
+        ctx.rect(me.x, me.y, maxTextWidth + 20, me.lineHeight * me.messages.length);
         ctx.strokeStyle = me.color;
         ctx.lineWidth = me.lineWidth;
         ctx.stroke();
-        
+
         ctx.restore();
     };
-    this.update = function(){
-        
+    this.update = function () {
+
     };
-};
+}
+;
 
 // Create constructor of class Background to background for canvas
 function Background(xStart, yStart, xEnd, yEnd, color1, color2, color3, xRect, yRect, width, height) {
@@ -96,6 +92,8 @@ function Texture(fileName) {
     var me = this;
     this.x = 0;
     this.y = 0;
+    this.radius = Math.sqrt(10000);
+    this.type = 'plane';
     this.width = 150;
     this.height = 250;
     this.rotation = 0;
@@ -111,7 +109,7 @@ function Texture(fileName) {
         key39: false, //right
         key40: false, //back 
         key32: false, //FIRE!!! Space
-        key17: false,  //bomb!!!! Alt
+        key17: false, //bomb!!!! Alt
         button1: false
     };
 // Creating property 'image' which is an exemplar of class Image    
@@ -182,7 +180,7 @@ function Texture(fileName) {
         if (me.currentSpeed > me.maxSpeed) {
             me.currentSpeed = me.maxSpeed;
         }
-     };
+    };
 
     this.deaccelerate = function () {
         me.currentSpeed = me.currentSpeed - me.aceleration1;
@@ -204,14 +202,14 @@ function Texture(fileName) {
             me.x = 0 + 5;
         }
         ;
-        if (me.y + me.height/2 >= HEIGHT) {
+        if (me.y + me.height / 2 >= HEIGHT) {
             this.image.src = 'images/boom.png';
             me.width = 150;
             me.height = 150;
-            me.y = HEIGHT - me.height/2;
+            me.y = HEIGHT - me.height / 2;
             me.currentSpeed = 0;
             me.aceleration = 0;
-            me.rotation = -1.5 ;
+            me.rotation = -1.5;
         }
         if (me.y <= 0) {
             me.y = 0 + 10;
@@ -222,11 +220,11 @@ function Texture(fileName) {
     this.setKey = function (keyCode, keyState) {
         me.controls['key' + keyCode] = keyState;
     };
-    
+
     this.setButton = function (keyCode, keyState) {
         me.controls['button' + keyCode] = keyState;
     };
-    this.moveTo = function(xPosition, yPosition){
+    this.moveTo = function (xPosition, yPosition) {
         me.x = xPosition;
         me.y = yPosition;
     };
@@ -250,6 +248,8 @@ function Bullet(fileName, params) {
     this.y = params.y;
     this.width = 10;
     this.height = 30;
+    this.radius = Math.sqrt(1000);
+    this.type = 'bullet';
     this.rotation = params.direction;
     this.speed = 5;
     this.loaded = false;
@@ -273,7 +273,8 @@ function Bullet(fileName, params) {
         me.x = me.x + Math.cos(me.rotation) * me.speed;
         me.y = me.y + Math.sin(me.rotation) * me.speed;
     };
-};
+}
+;
 
 // Creating constructor of class Bomb to describe the bombs and there properties
 function Bomb(fileName, params) {
@@ -282,6 +283,8 @@ function Bomb(fileName, params) {
     this.y = params.y;
     this.width = 40;
     this.height = 69;
+    this.radius = Math.sqrt(me.width * me.width + me.height * me.height);
+    this.type = 'bomb';
     this.rotation = params.direction;
     this.speed = 5;
     this.loaded = false;
@@ -318,7 +321,36 @@ function Bomb(fileName, params) {
         }
         ;
     };
-};
+}
+;
+
+function Circle(x, y, r) {
+    var me = this;
+
+    this.type = 'bot';
+    this.x = x;
+    this.y = y;
+    this.radius = r;
+    this.color = 'green';
+    this.width = 3;
+    this.draw = function (ctx) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(me.x, me.y, me.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = me.color;
+        ctx.lineWidth = me.width;
+        ctx.fill();
+        ctx.restore();
+    };
+    this.update = function () {
+
+    };
+    this.setColor = function (color) {
+        me.color = color;
+        
+    };
+}
+;
 
 var back = new Background(WIDTH / 2, HEIGHT, WIDTH / 2, 0, 'yellow', 'skyblue', 'lightskyblue', 0, 0, WIDTH, HEIGHT);
 
@@ -327,12 +359,66 @@ var rule = new Rules(WIDTH - 180, 10, 179, 40);
 rule.addMessage('Thow Bomb: Press Ctrl');
 rule.addMessage('Make piu-piu: Press Space');
 var drawElements = [];
+var collisionDetection = [];
+collisionDetection.push(plane);
+//collisionDetection.push();
 drawElements.push(back);
 drawElements.push(plane);
 drawElements.push(rule);
+for (i = 0; i < 3; i++) {
+    var newCircle = new Circle(200 + 70 * i, 150 + 80 * i, 40 + 10 * i);
+    drawElements.push(newCircle);
+    collisionDetection.push(newCircle);
+}
+;
+
+function collisionCheck() {
+    var obj1, obj2, dist;
+    for (var i = 0; i < collisionDetection.length; i++) {
+        obj1 = collisionDetection[i];
+        for (var j = 0; j < collisionDetection.length; j++) {
+            obj2 = collisionDetection[j];
+            if (i != j) {
+                dist = Math.sqrt(Math.pow(obj1.x - obj2.x, 2) +
+                        Math.pow(obj1.y - obj2.y, 2));
+                //  Collision between two objects
+                if (dist < obj1.radius + obj2.radius) {
+                    if ((obj1.type == 'plane') && (obj2.type == 'bot')) {
+                        
+                        obj1.needRemove = true;
+                        obj2.setColor('red');
+                    }
+                    if ((obj1.type == 'bomb') && (obj2.type == 'bot')) {
+                        obj1.needRemove = true;
+                        obj2.setColor('yellow');
+                    }
+                    if ((obj1.type == 'bullet') && (obj2.type == 'bot')) {
+                        obj1.needRemove = true;
+                        obj2.setColor('blue');
+                    }
+                    
+                    
+                    console.log('URAA');
+                }
+                
+            }
+            
+        }
+        ;
+    }
+    ;
+}
+;
+
+function clearGarbage(){
+    
+};
 
 setInterval(function () {
     context.clearRect(0, 0, 600, 600);
+    collisionCheck();
+//выкидывает все ненужные обьекты из двух массивов collision and drawElements    
+    clearGarbage();
     for (var i = 0; i < drawElements.length; i++) {
         //  deleted some elements from array drawElements
 //        if(drawElements.length > 50){
@@ -342,8 +428,14 @@ setInterval(function () {
 //        };
         drawElements[i].update();
         drawElements[i].draw(context);
-    }
+    };
+    
 }, 50);
+
+drawElements.splice();
+
+var indexOfElementToRemove = drawElements.indexOf(objectToRemove);
+drawElements.splice(indexOfElementToRemove,1);
 
 document.addEventListener('keydown', function (event) {
     plane.setKey(event.keyCode, true);
@@ -355,11 +447,22 @@ document.addEventListener('keyup', function (event) {
 //    console.log(event);
 });
 
-document.addEventListener('mousedown', function (event){
-    plane.setButton(event.button, false);   
+document.addEventListener('mousedown', function (event) {
+    event.preventDefault();
+    plane.setButton(event.button, false);
     plane.moveTo(event.x, event.y);
 //   console.log(event);
 });
+
+/*document.addEventListener('keypress', function (event) {
+ plane.setKey(event.keyCode, false);
+ //    console.log(event);
+ });
+ */
+
+
+//var circle = new Circle(400, 150, 30);
+//drawElements.push(circle);
 
 var events = {
     fire: [],
@@ -384,14 +487,19 @@ addListener('fire', function (params) {
 
     var bullet = new Bullet('images/bullet.png', params);
     drawElements.push(bullet);
+    collisionDetection.push(bullet);
 //    console.log(drawElements);
 });
 
 addListener('drop', function (params) {
     console.log('Bomb was dropped', params);
-    
+
     var bomb = new Bomb('images/bomb.png', params);
     drawElements.push(bomb);
+    collisionDetection.push(bomb);
 });
+
+
+
 
 
