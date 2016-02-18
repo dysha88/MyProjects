@@ -5,7 +5,8 @@ function Bullet(fileName, params) {
     this.y = params.y;
     this.width = 10;
     this.height = 30;
-    this.radius = Math.sqrt(1000);
+    this.radius = Math.sqrt(me.width * me.width + me.height * me.height)/2;
+    this.needRemove;
     this.type = 'bullet';
     this.rotation = params.direction;
     this.speed = 5;
@@ -18,10 +19,15 @@ function Bullet(fileName, params) {
     this.draw = function (ctx) {
         if (me.loaded) {
             ctx.save();
-            ctx.beginPath();
             ctx.translate(me.x, me.y);
             ctx.rotate(me.rotation);
-            ctx.drawImage(me.image, me.width, me.height, me.width, me.height);
+            ctx.drawImage(me.image, -me.width / 2, -me.height / 2, me.width, me.height);
+            
+            ctx.beginPath();
+            ctx.arc(0, 0, me.radius, 0, 2*Math.PI);
+            ctx.closePath();
+            ctx.stroke();
+            
             ctx.restore();
         }
         ;
@@ -29,6 +35,23 @@ function Bullet(fileName, params) {
     this.update = function () {
         me.x = me.x + Math.cos(me.rotation) * me.speed;
         me.y = me.y + Math.sin(me.rotation) * me.speed;
+        if (me.x > WIDTH) {
+            me.needRemove = true;
+        }
+        
+        if (me.y > HEIGHT) {
+            me.needRemove = true;
+        }
+        
+        if (me.x < 0) {
+            me.needRemove = true;
+        }
+        
+        if (me.y < 0) {
+            me.needRemove = true;
+        }
+        
+
     };
 }
 ;

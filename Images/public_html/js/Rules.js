@@ -37,7 +37,7 @@ function Rules(x, y, width, height) {
         ctx.strokeStyle = me.color;
         ctx.lineWidth = me.lineWidth;
         ctx.stroke();
-
+        ctx.closePath();
         ctx.restore();
     };
     this.update = function () {

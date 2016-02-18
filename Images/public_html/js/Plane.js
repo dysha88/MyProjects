@@ -1,18 +1,20 @@
 // Creating constructor of class Texture to describe the image which can move on canvas
-function Texture(fileName) {
+function Plane(fileName) {
     var me = this;
     this.x = 0;
-    this.y = 0;
-    this.radius = Math.sqrt(10000);
+    this.y = HEIGHT/2;
+    
     this.type = 'plane';
     this.width = 150;
     this.height = 250;
+    this.radius = Math.sqrt(me.width*me.width + me.height*me.height)/2;
     this.rotation = 0;
     this.maxSpeed = 8;
     this.currentSpeed = 0;
-    this.aceleration = 0.25;
-    this.aceleration1 = 0.1;
+    this.aceleration = 0.075;
+    this.aceleration1 = 0.05;
     this.loaded = false;
+    
 // Creating object property 'controls' which contain object with keyboard buttons property
     this.controls = {
         key37: false, //left
@@ -58,6 +60,7 @@ function Texture(fileName) {
                 y: me.y,
                 direction: me.rotation
             });
+            me.controls.key32 = false;
         }
 // push the bomb
         if (me.controls.key17) {
@@ -66,6 +69,7 @@ function Texture(fileName) {
                 y: me.y,
                 direction: me.rotation
             });
+            me.controls.key17 = false;
         }
         if (me.controls.button1) {
             me.moveTo();
@@ -142,14 +146,19 @@ function Texture(fileName) {
     this.draw = function (ctx) {
         if (me.loaded) {
             ctx.save();
-            ctx.beginPath();
             ctx.translate(me.x, me.y);
             ctx.rotate(me.rotation + 1.5);
-            ctx.drawImage(me.image, -me.width / 2, -me.height / 2, me.width, me.height);
+            ctx.drawImage(me.image, -me.width/2, -me.height/2, me.width, me.height);
+            
+            ctx.beginPath();
+            ctx.arc(0, 0, me.radius, 0, 2*Math.PI);
+            ctx.closePath();
+            ctx.stroke();
+            
             ctx.restore();
         }
-        ;
+        
     };
 }
-;
+
 
