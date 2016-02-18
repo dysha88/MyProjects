@@ -1,5 +1,8 @@
 function Bot(x, y, shootForDeath) {
     var me = this;
+    this.grd = 0;
+    this.fillStyle = 'transparent';
+    this.arrOfStyle = ['transparent', 'rgba(255,0,0,0.4)', 'rgba(255,0,0,0.7)' ];
     this.type = 'bot';
     this.x = x;
     this.y = y;
@@ -29,13 +32,14 @@ function Bot(x, y, shootForDeath) {
             ctx.save();
             ctx.translate(me.x, me.y);
 
-            //ctx.rotate(me.rotation);
+            ctx.rotate(me.rotation);
             ctx.drawImage(me.image, -me.width / 2, -me.height / 2, me.width, me.height);
-
+            
             ctx.beginPath();
             ctx.arc(0, 0, me.radius, 0, 2 * Math.PI);
+            ctx.fillStyle = me.arrOfStyle[me.numberOfHits];
             ctx.closePath();
-            ctx.stroke();
+            ctx.fill();
 
             ctx.restore();
         }
@@ -63,18 +67,15 @@ function Bot(x, y, shootForDeath) {
         me.x = me.x + Math.cos(me.rotation) * me.currentSpeed;
         me.y = me.y + Math.sin(me.rotation) * me.currentSpeed;
     };
-//    this.redraw = function () {
-//        time++;
-//        me.update(context);
-//    };
-//    this.update = function () {
-//
-//    };
+
 //    this.setColor = function (color) {
 //        me.color = color;
 //    };
     this.deathTime = function () {
         me.numberOfHits++;
+        for(i = 0; i < me.shootNum-1; i++){
+            me.fillStyle = me.arrOfStyle[i];
+        };
         if (me.numberOfHits == me.shootNum) {
             me.needRemove = true;
         }

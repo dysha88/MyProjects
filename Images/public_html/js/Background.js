@@ -15,6 +15,7 @@ function Background(xStart, yStart, xEnd, yEnd, color1, color2, color3, xRect, y
     this.height = height;
     this.draw = function (ctx) {
         ctx.save();
+        ctx.beginPath();
         me.grd = ctx.createLinearGradient(me.x1, me.y1, me.x2, me.y2);
         me.grd.addColorStop(0, me.color1);
         me.grd.addColorStop(0.5, me.color2);
@@ -27,7 +28,7 @@ function Background(xStart, yStart, xEnd, yEnd, color1, color2, color3, xRect, y
         ctx.restore();
     };
     this.update = function () {
-
+        
     };
 }
 ;

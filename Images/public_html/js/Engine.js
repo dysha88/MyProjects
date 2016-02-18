@@ -18,8 +18,8 @@ drawElements.push(back);
 drawElements.push(plane);
 drawElements.push(rule);
 for (i = 0; i < 5; i++) {
-    var x = Math.random() * 900 + 100,
-            y = Math.random() * 400 + 100,
+    var x = Math.random() * 800 + 100,
+            y = Math.random() * 300 + 100,
             bot = new Bot(x, y, 3);
     drawElements.push(bot);
     collisionDetection.push(bot);
@@ -27,27 +27,6 @@ for (i = 0; i < 5; i++) {
     console.log(x, y);
 }
 
-
-
-//var arr = [];
-//for(var i = 0; i < 5; i++){
-//    var bot = new Bot(Math.random()*1000, Math.random()*500, 30, 3);
-//    arr.push(bot);
-//    drawElements.push(bot);
-//    collisionDetection.push(bot);
-////    arr[i].setArea(WIDTH, HEIGHT);
-//    
-//};
-//
-//function move(){
-//    for(i = 0; i < arr.length; i++){
-//        arr[i].redraw();
-//
-//        
-//    };
-//};
-//
-//move();
 function collisionCheck() {
     var obj1, obj2, dist;
     for (var i = 0; i < collisionDetection.length; i++) {
@@ -62,6 +41,7 @@ function collisionCheck() {
                     if ((obj1.type == 'plane') && (obj2.type == 'bot')) {
 
                         obj1.image.src = 'images/boom.png';
+                        obj1.reloadPage();
                         obj2.needRemove = true;
                         //clearGarbage();
                     }
@@ -109,91 +89,91 @@ function clearGarbage() {
 function addNewBots() {
     var num = 0;
     for (i = 0; i < collisionDetection.length; i++) {
-        
+
         if (collisionDetection[i].type == 'bot') {
             var n = num++;
         }
     }
     if (n == 0) {
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < 3; i++) {
             var x = Math.random() * 900 + 100,
-                y = Math.random() * 400 + 350,
-            bot = new Bot(x, y, 3);
+                    y = Math.random() * 400 + 350,
+                    bot = new Bot(x, y, 3);
             drawElements.push(bot);
             collisionDetection.push(bot);
 
         }
-    } 
     }
-    ;
+}
+;
 
 
 
-    function move() {
-        context.clearRect(0, 0, 600, 600);
-        collisionCheck();
+function move() {
+    context.clearRect(0, 0, 600, 600);
+    collisionCheck();
 //выкидывает все ненужные обьекты из двух массивов collision and drawElements    
-        clearGarbage();
-        addNewBots();
+    clearGarbage();
+    addNewBots();
 
-        for (var i = 0; i < drawElements.length; i++) {
-            drawElements[i].update();
-            drawElements[i].draw(context);
-        }
-        window.requestAnimationFrame(move);
+    for (var i = 0; i < drawElements.length; i++) {
+        drawElements[i].update();
+        drawElements[i].draw(context);
     }
-    ;
-    move();
+    window.requestAnimationFrame(move);
+}
+;
+move();
 
-    document.addEventListener('keydown', function (event) {
-        plane.setKey(event.keyCode, true);
+document.addEventListener('keydown', function (event) {
+    plane.setKey(event.keyCode, true);
 //    console.log(event);
-    });
+});
 
-    document.addEventListener('keyup', function (event) {
-        plane.setKey(event.keyCode, false);
+document.addEventListener('keyup', function (event) {
+    plane.setKey(event.keyCode, false);
 //    console.log(event);
-    });
+});
 
-    document.addEventListener('mousedown', function (event) {
-        event.preventDefault();
-        plane.setButton(event.button, false);
-        plane.moveTo(event.x, event.y);
+document.addEventListener('mousedown', function (event) {
+    event.preventDefault();
+    plane.setButton(event.button, false);
+    plane.moveTo(event.x, event.y);
 //   console.log(event);
-    });
+});
 
-    var events = {
-        fire: [],
-        drop: []
-    };
+var events = {
+    fire: [],
+    drop: []
+};
 
-    function addListener(eventName, functionCallback) {
-        events[eventName].push(functionCallback);
+function addListener(eventName, functionCallback) {
+    events[eventName].push(functionCallback);
+}
+;
+
+function fireEvent(eventName, params) {
+    for (var i = 0; i < events[eventName].length; i++) {
+        events[eventName][i](params);
     }
     ;
+}
+;
 
-    function fireEvent(eventName, params) {
-        for (var i = 0; i < events[eventName].length; i++) {
-            events[eventName][i](params);
-        }
-        ;
-    }
-    ;
+addListener('fire', function (params) {
+    console.log('fire event was fired', params);
 
-    addListener('fire', function (params) {
-        console.log('fire event was fired', params);
+    var bullet = new Bullet('images/bullet.png', params);
+    drawElements.push(bullet);
+    collisionDetection.push(bullet);
+});
 
-        var bullet = new Bullet('images/bullet.png', params);
-        drawElements.push(bullet);
-        collisionDetection.push(bullet);
-    });
+addListener('drop', function (params) {
+    console.log('Bomb was dropped', params);
 
-    addListener('drop', function (params) {
-        console.log('Bomb was dropped', params);
-
-        var bomb = new Bomb('images/bomb.png', params);
-        drawElements.push(bomb);
-        collisionDetection.push(bomb);
+    var bomb = new Bomb('images/bomb.png', params);
+    drawElements.push(bomb);
+    collisionDetection.push(bomb);
 }
 );
 

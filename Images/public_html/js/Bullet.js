@@ -35,24 +35,10 @@ function Bullet(fileName, params) {
     this.update = function () {
         me.x = me.x + Math.cos(me.rotation) * me.speed;
         me.y = me.y + Math.sin(me.rotation) * me.speed;
-        if (me.x > WIDTH) {
+        if (me.x > WIDTH || me.y > HEIGHT || me.x < 0 || me.y < 0) {
             me.needRemove = true;
         }
-        
-        if (me.y > HEIGHT) {
-            me.needRemove = true;
-        }
-        
-        if (me.x < 0) {
-            me.needRemove = true;
-        }
-        
-        if (me.y < 0) {
-            me.needRemove = true;
-        }
-        
-
-    };
+   };
 }
 ;
 

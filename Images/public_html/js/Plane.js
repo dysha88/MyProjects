@@ -5,8 +5,8 @@ function Plane(fileName) {
     this.y = HEIGHT/2;
     
     this.type = 'plane';
-    this.width = 150;
-    this.height = 250;
+    this.width = 100;
+    this.height = 150;
     this.radius = Math.sqrt(me.width*me.width + me.height*me.height)/2;
     this.rotation = 0;
     this.maxSpeed = 8;
@@ -119,6 +119,7 @@ function Plane(fileName) {
         ;
         if (me.y + me.height / 2 >= HEIGHT) {
             this.image.src = 'images/boom.png';
+            me.reloadPage();
             me.width = 150;
             me.height = 150;
             me.y = HEIGHT - me.height / 2;
@@ -142,6 +143,9 @@ function Plane(fileName) {
     this.moveTo = function (xPosition, yPosition) {
         me.x = xPosition;
         me.y = yPosition;
+    };
+    this.reloadPage = function (){
+        window.location.reload();   
     };
     this.draw = function (ctx) {
         if (me.loaded) {
