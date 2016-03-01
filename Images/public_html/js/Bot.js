@@ -6,8 +6,8 @@ function Bot(x, y, shootForDeath) {
     this.type = 'bot';
     this.x = x;
     this.y = y;
-    this.width = 40;
-    this.height = 50;
+    this.width = 60;
+    this.height = 70;
     this.radius = Math.sqrt(me.width * me.width + me.height * me.height)/2;
     this.rotation = Math.random()*360*Math.PI/180;
     this.shootNum = shootForDeath;
@@ -32,7 +32,7 @@ function Bot(x, y, shootForDeath) {
             ctx.save();
             ctx.translate(me.x, me.y);
 
-            ctx.rotate(me.rotation);
+//            ctx.rotate(me.rotation);
             ctx.drawImage(me.image, -me.width / 2, -me.height / 2, me.width, me.height);
             
             ctx.beginPath();
