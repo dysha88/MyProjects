@@ -71,6 +71,7 @@ function Plane(fileName) {
             });
             me.controls.key17 = false;
         }
+// move to the place on the canvas by clicking mouse        
         if (me.controls.button1) {
             me.moveTo();
         }

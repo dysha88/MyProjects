@@ -1,27 +1,87 @@
 
-var canvas = document.getElementById('myCanvas');
-var context = canvas.getContext('2d');
-var WIDTH = canvas.width;
-var HEIGHT = canvas.height;
+//var canvas = document.getElementById('myCanvas');
+//var context = canvas.getContext('2d');
+var WIDTH = 900;
+var HEIGHT = 500;
 
-var back = new Background(WIDTH / 2, HEIGHT, WIDTH / 2, 0, 'yellow', 'skyblue', 'lightskyblue', 0, 0, WIDTH, HEIGHT);
+var renderer = PIXI.autoDetectRenderer(WIDTH, 500,{backgroundColor : 0x1099bb});
+document.body.appendChild(renderer.view);
 
-var gate1 = new Gate(0, 2*HEIGHT/5, 10, HEIGHT/5);
-var gate2 = new Gate(WIDTH - 10, 2*HEIGHT/5, 10, HEIGHT/5);
+var stage = new PIXI.Container();
 
-var ball = new Ball(gate1.x + 10 + 10, gate1.y + gate1.height/2, 10);
+//var texture = PIXI.Texture.fromImage();
 
+var back = new PIXI.Sprite.fromImage('img/back.png');
+
+stage.addChild(back);
+
+//var back = new Background(WIDTH / 2, HEIGHT, WIDTH / 2, 0, 'yellow', 'skyblue', 'lightskyblue', 0, 0, WIDTH, HEIGHT);
+
+var gate1 = new Gate(0, 2 * HEIGHT / 5, 10, HEIGHT / 5);
+stage.addChild(gate1.item);
+
+var gate2 = new Gate(WIDTH - 10, 2 * HEIGHT / 5, 10, HEIGHT / 5);
+stage.addChild(gate2.item);
+
+var ball = new Ball(gate1.x + 10 + 10, gate1.y + gate1.height / 2, 10);
+stage.addChild(ball.item);
+
+
+
+//var square = new Square(WIDTH/2, HEIGHT/2,10);
 //var plane = new Plane('images/plane.png');
 //
 //var rule = new Rules(WIDTH - 180, 10, 179, 40);
 //rule.addMessage('Thow Bomb: Press Ctrl');
 //rule.addMessage('Make piu-piu: Press Space');
 
-var drawElements = [];
-drawElements.push(back);
-drawElements.push(gate1);
-drawElements.push(gate2);
-drawElements.push(ball);
+var elements = [];
+elements.push(gate1);
+elements.push(gate2);
+elements.push(ball);
+//
+var x,y;
+for (var i = 0; i < 21; i++) {
+    for (var j = i; j < 21; j++) {
+        x = WIDTH / 2  - i*10;
+        y = HEIGHT / 2 + 20*10 - j*10;
+        var square = new Square(x, y, 10);
+        stage.addChild(square.item);
+        elements.push(square);
+    }
+
+}
+for (var i = 0; i < 21; i++) {
+    for (var j = i; j < 21; j++) {
+        x = WIDTH / 2  + i*10;
+        y = HEIGHT / 2 - 20*10 + j*10;
+        var square = new Square(x, y, 10);
+        stage.addChild(square.item);
+        elements.push(square);
+    }
+
+}
+for (var i = 0; i < 20; i++) {
+    for (var j = i; j < 20; j++) {
+        x = WIDTH / 2 + 20*10 - j*10;
+        y = HEIGHT / 2 + i*10;
+        var square = new Square(x, y, 10);
+        stage.addChild(square.item);
+        elements.push(square);
+    }
+
+}
+for (var i = 0; i < 20; i++) {
+    for (var j = i; j < 20; j++) {
+        x = WIDTH / 2 - 20*10 + j*10;
+        y = HEIGHT / 2  - i*10;
+        var square = new Square(x, y, 10);
+        stage.addChild(square.item);
+        elements.push(square);
+    }
+
+}
+
 //drawElements.push(plane);
 //drawElements.push(rule);
 
@@ -118,79 +178,32 @@ drawElements.push(ball);
 //}
 //;
 
+document.addEventListener('keydown', function (event) {
+    gate1.setKey(event.keyCode, true);
+    console.log(event);
+});
 
+document.addEventListener('keyup', function (event) {
+    gate1.setKey(event.keyCode, false);
+    console.log(event);
+});
 
-function move() {
-    context.clearRect(0, 0, 600, 600);
-//    collisionCheck();
+function animate() {
+//    context.clearRect(0, 0, 600, 600);
+    //collisionCheck();
 //выкидывает все ненужные обьекты из двух массивов collision and drawElements    
 //    clearGarbage();
 //    addNewBots();
-
-    for (var i = 0; i < drawElements.length; i++) {
-        drawElements[i].update();
-        drawElements[i].draw(context);
+    requestAnimationFrame(animate);
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].update();
     }
-    window.requestAnimationFrame(move);
+    
+    renderer.render(stage);
+//    window.requestAnimationFrame(move);
 }
-;
-move();
 
-//document.addEventListener('keydown', function (event) {
-//    plane.setKey(event.keyCode, true);
-////    console.log(event);
-//});
-//
-//document.addEventListener('keyup', function (event) {
-//    plane.setKey(event.keyCode, false);
-////    console.log(event);
-//});
-//
-//document.addEventListener('mousedown', function (event) {
-//    event.preventDefault();
-//    plane.setButton(event.button, false);
-//    plane.moveTo(event.x, event.y);
-////   console.log(event);
-//});
-//
-//var events = {
-//    fire: [],
-//    drop: []
-//};
-//
-//function addListener(eventName, functionCallback) {
-//    events[eventName].push(functionCallback);
-//}
-//;
-//
-//function fireEvent(eventName, params) {
-//    for (var i = 0; i < events[eventName].length; i++) {
-//        events[eventName][i](params);
-//    }
-//    ;
-//}
-//;
-//
-//addListener('fire', function (params) {
-//    console.log('fire event was fired', params);
-//
-//    var bullet = new Bullet('images/bullet.png', params);
-//    drawElements.push(bullet);
-//    collisionDetection.push(bullet);
-//});
-//
-//addListener('drop', function (params) {
-//    console.log('Bomb was dropped', params);
-//
-//    var bomb = new Bomb('images/bomb.png', params);
-//    drawElements.push(bomb);
-//    collisionDetection.push(bomb);
-//}
-//);
-
-
-
-
+animate();
 
 
 
