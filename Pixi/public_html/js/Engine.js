@@ -51,21 +51,21 @@ spineDragon.operation.scale = [
             scaleY : 1
         }
         },
-        {
-            time : 1000,
-            value : {
-                saleX : 2,
-                scaleY : 2
-            }
-        },
-        {
-            time : 1500,
-            value : {
-                scaleX : 1,
-                scaleY : 1
-            }
+    {
+        time : 1000,
+        value : {
+            saleX : 2,
+            scaleY : 2
+        }
+    },
+    {
+        time : 1500,
+        value : {
+            scaleX : 1,
+            scaleY : 1
         }
     }
+    
 ];
 
 
