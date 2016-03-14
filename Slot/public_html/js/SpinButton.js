@@ -1,12 +1,12 @@
 function SpinButton(){
     var me = this;
-    this.spinContainer = new PIXI.Container();
-    me.spinContainer.position.x = 500;
-    me.spinContainer.position.y = 400;
+    this.rootContainer = new PIXI.Container();
+    me.rootContainer.position.x = 540;
+    me.rootContainer.position.y = 525;
 
-    var spin = new PIXI.Sprite.fromImage('images/sym1.png');
-    me.spinContainer.addChild(spin);
-    spin.interactive = true;
+    var spinButton = new PIXI.Sprite.fromImage('images/spin_button.png');
+    me.rootContainer.addChild(spinButton);
+    spinButton.interactive = true;
 
-    this.button = spin;
+    this.button = spinButton;
 };
