@@ -22,9 +22,7 @@ var reelsArea = new PIXI.Container();
 var area = new PIXI.Sprite.fromImage('images/reelsArea.png');
 reelsArea.addChild(area);
 
-var reel1 = new Reels(['sym3', 'sym3', 'sym6', 'sym1'/*, 'sym7', 'sym3', 'sym5', 'sym6', 'sym5'*/]);
-//var reel11 = new Reels(['sym3', 'sym3', 'sym6', 'sym1', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5']);
-//reelsArea.addChild(reel11.rootContainer);
+var reel1 = new Reels(['sym3', 'sym3', 'sym6', 'sym1', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5']);
 reelsArea.addChild(reel1.rootContainer);
 
 var reel2 = new Reels(['sym1', 'sym3', 'sym6', 'sym0', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5']);
@@ -102,23 +100,23 @@ function animate() {
 
 
 
-    //postition += 10;
-    //
-    //back.position.x = -(postition * 0.6);
-    //back.position.x %= WIDTH * 2;
-    //if(back.position.x < 0)
-    //{
-    //    back.position.x += WIDTH * 2;
-    //}
-    //back.position.x -= WIDTH;
-    //
-    //back1.position.x = -(postition * 0.6) + WIDTH;
-    //back1.position.x %= WIDTH * 2;
-    //if(back1.position.x < 0)
-    //{
-    //    back1.position.x += WIDTH * 2;
-    //}
-    //back1.position.x -= WIDTH;
+    postition += 10;
+
+    back.position.x = -(postition * 0.6);
+    back.position.x %= WIDTH * 2;
+    if(back.position.x < 0)
+    {
+        back.position.x += WIDTH * 2;
+    }
+    back.position.x -= WIDTH;
+
+    back1.position.x = -(postition * 0.6) + WIDTH;
+    back1.position.x %= WIDTH * 2;
+    if(back1.position.x < 0)
+    {
+        back1.position.x += WIDTH * 2;
+    }
+    back1.position.x -= WIDTH;
 
 
     requestAnimationFrame(animate);
