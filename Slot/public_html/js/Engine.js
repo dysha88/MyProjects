@@ -1,126 +1,86 @@
-var WIDTH = 1160;
-var HEIGHT = 650;
+var WIDTH = 1280;
+var HEIGHT = 720;
 
 var renderer = PIXI.autoDetectRenderer(WIDTH, HEIGHT, {transparent : true});
 document.body.appendChild(renderer.view);
 
 var stage = new PIXI.Container();
-
-//PIXI.loader
-//    .load(onAssetsLoaded);
+stage.position.x = 0;
+stage.position.y = 0;
 
 var back = new PIXI.Sprite.fromImage('images/back.png');
 back.width = WIDTH;
 back.height = HEIGHT;
-var back1 = new PIXI.Sprite.fromImage('images/back.png');
-back1.width = WIDTH;
-back1.height = HEIGHT;
 stage.addChild(back);
-stage.addChild(back1);
+//var back1 = new PIXI.Sprite.fromImage('images/back.png');
+//back1.width = WIDTH;
+//back1.height = HEIGHT;
+//stage.addChild(back1);
 
-var reelsArea = new PIXI.Container();
+var reels = new PIXI.Container();
 var area = new PIXI.Sprite.fromImage('images/reelsArea.png');
-reelsArea.addChild(area);
+area.position.x = GAMECONFIG.reelsOffsetX;
+area.position.y = GAMECONFIG.reelsOffsetY;
+stage.addChild(area);
 
-var reel1 = new Reels(['sym3', 'sym3', 'sym6', 'sym1', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5']);
-reelsArea.addChild(reel1.rootContainer);
+var reel1 = new Reels(['sym3', 'sym3', 'sym6', 'sym1', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5', 'sym10']);
+reels.addChild(reel1.getRoot());
 
-var reel2 = new Reels(['sym1', 'sym3', 'sym6', 'sym0', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5']);
-reel2.rootContainer.position.x = reel1.rootContainer.position.x + 180;
-reelsArea.addChild(reel2.rootContainer);
+var reel2 = new Reels(['sym1', 'sym3', 'sym6', 'sym0', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5', 'sym7']);
+reel2.setDistance(1);
+reels.addChild(reel2.getRoot());
 
 
-var reel3 = new Reels(['sym1', 'sym3', 'sym6', 'sym0', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5']);
-reel3.rootContainer.position.x = reel2.rootContainer.position.x + 180;
-reelsArea.addChild(reel3.rootContainer);
+var reel3 = new Reels(['sym1', 'sym3', 'sym6', 'sym0', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5', 'sym9']);
+reel3.setDistance(2);
+reels.addChild(reel3.getRoot());
 
-var reel4 = new Reels(['sym1', 'sym3', 'sym6', 'sym0', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5']);
-reel4.rootContainer.position.x = reel3.rootContainer.position.x + 180;
-reelsArea.addChild(reel4.rootContainer);
+var reel4 = new Reels(['sym1', 'sym3', 'sym6', 'sym0', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5', 'sym4']);
+reel4.setDistance(3);
+reels.addChild(reel4.getRoot());
 
-var reel5 = new Reels(['sym1', 'sym3', 'sym6', 'sym0', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5']);
-reel5.rootContainer.position.x = reel4.rootContainer.position.x + 180;
-reelsArea.addChild(reel5.rootContainer);
+var reel5 = new Reels(['sym1', 'sym3', 'sym6', 'sym0', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5', 'sym6']);
+reel5.setDistance(4);
+reels.addChild(reel5.getRoot());
 
-reelsArea.position.x = 100;
-stage.addChild(reelsArea);
+reels.position.x = GAMECONFIG.reelsOffsetX;
+reels.position.y = GAMECONFIG.reelsOffsetY;
+
+stage.addChild(reels);
+
+var thing = new PIXI.Graphics();
+thing.position.x = GAMECONFIG.reelsOffsetX;
+thing.position.y = GAMECONFIG.reelsOffsetY;
+stage.addChild(thing);
+
+reels.mask = thing;
 
 var spin = new SpinButton();
 spin.button.on('mousedown', function(){
-    //reel1.moving();
-    setTimeout(reel1.setPos(parseInt(Math.random()*10)),5000);
-    reel2.setPos(parseInt(Math.random()*10));
-    reel3.setPos(parseInt(Math.random()*10));
-    reel4.setPos(parseInt(Math.random()*10));
-    reel5.setPos(parseInt(Math.random()*10));
-    //requestAnimationFrame(animate);
+    reel1.setPos(parseInt(Math.random()*20) + 1);
+    reel2.setPos(parseInt(Math.random()*10) + 1);
+    reel3.setPos(parseInt(Math.random()*10) + 1);
+    reel4.setPos(parseInt(Math.random()*10) + 1);
+    reel5.setPos(parseInt(Math.random()*10) + 1);
+
 
 });
 
-//var movie;
-//function onAssetsLoaded()
-//{
-//    // create an array of textures from an image path
-//    var frames = [];
-//
-//    for (var i = 0; i < reel1.rootContainer.length; i++) {
-//        // magically works since the spritesheet was loaded with the pixi loader
-//        frames.push(reel1.rootContainer[i]);
-//    }
-//
-//
-//    // create a MovieClip (brings back memories from the days of Flash, right ?)
-//    movie = new PIXI.extras.MovieClip(frames);
-//
-//    /*
-//     * A MovieClip inherits all the properties of a PIXI sprite
-//     * so you can change its position, its anchor, mask it, etc
-//     */
-//    //movie.position.set(300);
-//
-//    //movie.anchor.set(0.5);
-//    movie.animationSpeed = 1.5;
-//
-//    movie.play();
-//
-//    stage.addChild(movie);
-//
-//    //animate();
-//}
-//console.log(reel2.rootContainer.children[1].position.y);
-//console.log(reel2.rootContainer.position.y);
-stage.addChild(spin.rootContainer);
-
-var postition = 0;
+stage.addChild(spin.getRoot());
 
 function animate() {
-    //movie.rotation += 0.1;
 
-    reel1.moving();
+    reel1.update();
+    reel2.update();
+    reel3.update();
+    reel4.update();
+    reel5.update();
 
-
-
-    postition += 10;
-
-    back.position.x = -(postition * 0.6);
-    back.position.x %= WIDTH * 2;
-    if(back.position.x < 0)
-    {
-        back.position.x += WIDTH * 2;
-    }
-    back.position.x -= WIDTH;
-
-    back1.position.x = -(postition * 0.6) + WIDTH;
-    back1.position.x %= WIDTH * 2;
-    if(back1.position.x < 0)
-    {
-        back1.position.x += WIDTH * 2;
-    }
-    back1.position.x -= WIDTH;
-
+    thing.clear();
+    thing.beginFill();
+    thing.drawRect(area.position.x - 120, area.position.y, area.width, area.height - 60);
 
     requestAnimationFrame(animate);
-
     renderer.render(stage);
 }
 
