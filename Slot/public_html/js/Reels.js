@@ -33,12 +33,12 @@ function Reels (reelStrip, reelNum){
 
 
     this.stopPos = 0;
-    this.reelSpeed = 30;
+    this.reelSpeed = 3;
 
-    this.setStopPos = function(position){
-        //me.state = 'moving';
-        me.stopPos = GAMECONFIG.reelsOffsetY - position*GAMECONFIG.symbolHeight;
-    }
+    //this.setStopPos = function(position){
+    //    //me.state = 'moving';
+    //    me.stopPos = GAMECONFIG.reelsOffsetY - position*GAMECONFIG.symbolHeight;
+    //};
 
     this.getRoot = function (){
         return me.rootContainer;
@@ -57,8 +57,11 @@ function Reels (reelStrip, reelNum){
         }
 
         if(me.state == 'stopping'){
-            if(currentPos < me.stopPos ){
+
+            if(currentPos <= me.stopPos ){
                 lastStep = me.stopPos - currentPos;
+                console.error(currentPos);
+                console.error(lastStep);
                 if(lastStep <= me.reelSpeed){
                     me.state = 'stopped';
 
@@ -66,7 +69,6 @@ function Reels (reelStrip, reelNum){
                 } else {
                     currentPos += me.reelSpeed;
                 }
-                //me.setPos(parseInt(Math.random()*20) + 1);
             }
         }
 
@@ -75,6 +77,7 @@ function Reels (reelStrip, reelNum){
         //}
 
         currentPos += me.reelSpeed;
+        //console.log(currentPos);
         me.rootContainer.position.y = currentPos;
 
         if(me.rootContainer.position.y > GAMECONFIG.reelsOffsetY){
@@ -98,11 +101,6 @@ function Reels (reelStrip, reelNum){
 
     });
 
-
-
-
-
-    
-};
+}
 
 
