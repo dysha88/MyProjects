@@ -23,23 +23,22 @@ area.position.x = GAMECONFIG.reelsOffsetX;
 area.position.y = GAMECONFIG.reelsOffsetY;
 stage.addChild(area);
 
-var reel1 = new Reels(['sym3', 'sym3', 'sym6', 'sym1', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5', 'sym10'], 0);
+var reel1 = new Reels(GAMECONFIG.reelStrip[0], 0);
 reels.addChild(reel1.getRoot());
 
-var reel2 = new Reels(['sym1', 'sym3', 'sym6', 'sym0', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5', 'sym7'], 1);
+var reel2 = new Reels(GAMECONFIG.reelStrip[1], 1);
 reel2.setDistance();
 reels.addChild(reel2.getRoot());
 
-
-var reel3 = new Reels(['sym1', 'sym3', 'sym6', 'sym0', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5', 'sym9'], 2);
+var reel3 = new Reels(GAMECONFIG.reelStrip[2], 2);
 reel3.setDistance();
 reels.addChild(reel3.getRoot());
 
-var reel4 = new Reels(['sym1', 'sym3', 'sym6', 'sym0', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5', 'sym4'], 3);
+var reel4 = new Reels(GAMECONFIG.reelStrip[3], 3);
 reel4.setDistance();
 reels.addChild(reel4.getRoot());
 
-var reel5 = new Reels(['sym1', 'sym3', 'sym6', 'sym0', 'sym7', 'sym3', 'sym5', 'sym6', 'sym5', 'sym6'], 4);
+var reel5 = new Reels(GAMECONFIG.reelStrip[4], 4);
 reel5.setDistance();
 reels.addChild(reel5.getRoot());
 
