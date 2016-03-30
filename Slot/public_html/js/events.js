@@ -2,7 +2,9 @@ var events = {
     reelSpinStart: [],
     reelSpinStop: [],
     allReelsStopped: [],
-    spinButtonPress: []
+    spinButtonPress: [],
+    serverRequest : [],
+    serverResponse : []
 };
 
 function addListener(eventName, functionCallback) {

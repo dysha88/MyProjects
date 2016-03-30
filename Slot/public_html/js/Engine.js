@@ -76,6 +76,8 @@ spin.button.on('mousedown', function(){
 
 stage.addChild(spin.getRoot());
 var spinModule = new SpinModule();
+var server = new Server();
+
 
 function animate() {
 

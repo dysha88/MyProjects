@@ -33,12 +33,12 @@ function Reels (reelStrip, reelNum){
 
 
     this.stopPos = 0;
-    this.reelSpeed = 30;
+    this.reelSpeed = 10;
 
     this.setStopPos = function(position){
         //me.state = 'moving';
         me.stopPos = GAMECONFIG.reelsOffsetY - position*GAMECONFIG.symbolHeight;
-    }
+    };
 
     this.getRoot = function (){
         return me.rootContainer;
@@ -67,14 +67,18 @@ function Reels (reelStrip, reelNum){
                     currentPos += me.reelSpeed;
                 }
                 //me.setPos(parseInt(Math.random()*20) + 1);
+            } else {
+                currentPos += me.reelSpeed;
             }
         }
 
         //if((me.rootContainer.position.y > me.stopPos - me.reelSpeed + 10) && (me.rootContainer.position.y < me.stopPos + me.reelSpeed + 10) ){
         //    me.state = 'stopped';
         //}
+        if(me.state == 'moving'){
+            currentPos += me.reelSpeed;
+        }
 
-        currentPos += me.reelSpeed;
         me.rootContainer.position.y = currentPos;
 
         if(me.rootContainer.position.y > GAMECONFIG.reelsOffsetY){
@@ -91,18 +95,13 @@ function Reels (reelStrip, reelNum){
 
     addListener('reelSpinStop', function(params){
         if(me.reelNum == params.reelNum) {
-            me.state = 'stopping';
             me.stopPos = -GAMECONFIG.symbolHeight*params.stopSymNum;
+            me.state = 'stopping';
             console.error(me.stopPos);
         }
 
     });
 
-
-
-
-
-    
-};
+}
 
 

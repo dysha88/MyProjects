@@ -1,5 +1,6 @@
 function SpinModule(){
     var me = this;
+    this.lastResponse = {};
 
 
     this.startAllReels = function(){
@@ -10,6 +11,8 @@ function SpinModule(){
             me.startReel(i, i*300)
         }
         setTimeout(me.stopAllReels, 5000);
+
+        fireEvent ('serverRequest', {action : "nextRound"});
     };
 
     this.startReel = function(reelNum, timeout){
@@ -34,12 +37,17 @@ function SpinModule(){
 
             fireEvent('reelSpinStop', {
                 reelNum : reelNum,
-                stopSymNum: parseInt(Math.random()*10)
+                stopSymNum : me.lastResponse.reels[reelNum]
             });
 
         }, timeout);
     };
 
+    this.serverResponse = function(response){
+        me.lastResponse = response;
+    };
+
+    addListener('serverResponse', me.serverResponse);
     addListener('spinButtonPress', me.startAllReels);
 
 };
