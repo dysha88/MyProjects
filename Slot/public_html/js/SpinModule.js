@@ -10,7 +10,7 @@ function SpinModule(){
         for (i = 0; i < 5; i++){
             me.startReel(i, i*300)
         }
-        setTimeout(me.stopAllReels, 5000);
+        setTimeout(me.stopAllReels, 3000);
 
         fireEvent ('serverRequest', {action : "nextRound"});
     };
@@ -24,11 +24,11 @@ function SpinModule(){
     };
 
     this.stopAllReels = function(){
-        //me.startReel(1, 100);
-        //me.startReel(2, 900);
+        //me.stopReel(1, 100);
+        //me.stopReel(2, 900);
         var i;
         for (i = 0; i < 5; i++){
-            me.stopReel(i, i*300)
+            me.stopReel(i, i*400)
         }
     };
 
@@ -47,7 +47,9 @@ function SpinModule(){
         me.lastResponse = response;
     };
 
+    this.response = me.lastResponse;
+
     addListener('serverResponse', me.serverResponse);
     addListener('spinButtonPress', me.startAllReels);
 
-};
+}

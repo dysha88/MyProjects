@@ -1,5 +1,6 @@
 function Server () {
     var me = this;
+
     var responseQueue = [
         {
             reels : [1,2,3,4,5],
@@ -18,17 +19,18 @@ function Server () {
         }
     ];
 
+
     var queueIndex = 0;
 
     this.request = function(params){
-        var xhr = new XMLHttpRequest();
-        xhr.onload = function(){
-            console.log(xhr.responseText);
-            var resp = JSON.parse(xhr   .responseText);
-            console.log(resp);
-        };
-        xhr.open('GET', 'resp.json', true);
-        xhr.send();
+        //var xhr = new XMLHttpRequest();
+        //xhr.onload = function(){
+        //    console.log(xhr.responseText);
+        //    var resp = JSON.parse(xhr.responseText);
+        //    console.log(resp);
+        //};
+        //xhr.open('GET', 'resp.json', true);
+        //xhr.send();
 
         me.response(responseQueue[queueIndex++]);
         console.log(params);

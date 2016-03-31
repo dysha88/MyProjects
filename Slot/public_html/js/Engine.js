@@ -8,6 +8,7 @@ var stage = new PIXI.Container();
 stage.position.x = 0;
 stage.position.y = 0;
 
+
 var back = new PIXI.Sprite.fromImage('images/back.png');
 back.width = WIDTH;
 back.height = HEIGHT;
@@ -19,8 +20,8 @@ stage.addChild(back);
 
 var reels = new PIXI.Container();
 var area = new PIXI.Sprite.fromImage('images/reelsArea.png');
-area.position.x = GAMECONFIG.reelsOffsetX;
-area.position.y = GAMECONFIG.reelsOffsetY;
+area.position.x = GAMECONFIG.reelsOffsetX - 30;
+area.position.y = GAMECONFIG.reelsOffsetY - 30;
 stage.addChild(area);
 
 var reel1 = new Reels(GAMECONFIG.reelStrip[0], 0);
@@ -48,8 +49,8 @@ reels.position.y = GAMECONFIG.reelsOffsetY;
 stage.addChild(reels);
 
 var thing = new PIXI.Graphics();
-thing.position.x = GAMECONFIG.reelsOffsetX;
-thing.position.y = GAMECONFIG.reelsOffsetY;
+thing.position.x = GAMECONFIG.reelsOffsetX - 30;
+thing.position.y = GAMECONFIG.reelsOffsetY - 30;
 //thing.clear();
 thing.beginFill();
 //thing.drawRect(area.position.x - 10, area.position.y, area.width, area.height - 10);
@@ -60,22 +61,41 @@ stage.addChild(thing);
 reels.mask = thing;
 
 var spin = new SpinButton();
+
+
+var spinModule = new SpinModule();
+var server = new Server();
+
+var winField = new TextField();
+stage.addChild(winField.getRoot());
+stage.addChild(spin.getRoot());
 spin.button.on('mousedown', function(){
 
     fireEvent('spinButtonPress');
-
+    spin.rootContainer.scale.x += 0.2;
+    spin.rootContainer.scale.y += 0.2;
+    spin.rootContainer.transparent;
     //reel1.setPos(parseInt(Math.random()*20) + 1);
     //reel2.setPos(parseInt(Math.random()*10) + 1);
     //reel3.setPos(parseInt(Math.random()*10) + 1);
     //reel4.setPos(parseInt(Math.random()*10) + 1);
     //reel5.setPos(parseInt(Math.random()*10) + 1);
-
-
+});
+spin.button.on('mouseup', function(){
+    spin.rootContainer.scale.x -= 0.2;
+    spin.rootContainer.scale.y -= 0.2;
 });
 
-stage.addChild(spin.getRoot());
-var spinModule = new SpinModule();
-var server = new Server();
+spin.button.on('mouseover', function(){
+    spin.rootContainer.scale.x += 0.3;
+    spin.rootContainer.scale.y += 0.3;
+});
+
+spin.button.on('mouseout', function(){
+    spin.rootContainer.scale.x -= 0.3;
+    spin.rootContainer.scale.y -= 0.3;
+});
+
 
 
 function animate() {

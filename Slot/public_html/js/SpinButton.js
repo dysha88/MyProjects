@@ -12,4 +12,6 @@ function SpinButton(){
     this.getRoot = function (){
         return me.rootContainer;
     };
-};
+
+
+}
