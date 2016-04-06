@@ -1,6 +1,7 @@
 var events = {
     reelSpinStart: [],
     reelSpinStop: [],
+    reelSpinStopped: [],
     allReelsStopped: [],
     spinButtonPress: [],
     serverRequest : [],
@@ -17,6 +18,5 @@ function fireEvent(eventName, params) {
     for (var i = 0; i < events[eventName].length; i++) {
         events[eventName][i](params);
     }
-
 
 }

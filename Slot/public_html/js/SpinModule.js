@@ -1,6 +1,7 @@
 function SpinModule(){
     var me = this;
     this.lastResponse = {};
+    this.reels=['stopped','stopped','stopped','stopped','stopped'];
 
 
     this.startAllReels = function(){
@@ -19,6 +20,7 @@ function SpinModule(){
         setTimeout(function(){
 
             fireEvent('reelSpinStart', reelNum);
+            me.reels[reelNum] = 'spin';
 
         }, timeout);
     };
@@ -30,6 +32,7 @@ function SpinModule(){
         for (i = 0; i < 5; i++){
             me.stopReel(i, i*400)
         }
+        console.log(me.lastResponse.win);
     };
 
     this.stopReel = function(reelNum, timeout){
@@ -37,7 +40,8 @@ function SpinModule(){
 
             fireEvent('reelSpinStop', {
                 reelNum : reelNum,
-                stopSymNum : me.lastResponse.reels[reelNum]
+                stopSymNum : me.lastResponse.reels[reelNum],
+                win : me.lastResponse.win
             });
 
         }, timeout);
@@ -49,7 +53,25 @@ function SpinModule(){
 
     this.response = me.lastResponse;
 
+    this.checkAllReelsStopped = function(){
+        //for(var i = 0; i < me.reels.length; i++){
+        //    if(me.reels[me.reels.length - 1] == 'stopped'){
+        //        fireEvent('allReelsStopped');
+        //    }
+        //}
+        if(me.reels[0] == 'stopped' &&
+            me.reels[1] == 'stopped' &&
+            me.reels[2] == 'stopped' &&
+            me.reels[3] == 'stopped' &&
+            me.reels[4] == 'stopped'){
+            fireEvent('allReelsStopped');//, {win : me.lastResponse.win});
+        }
+    };
+
     addListener('serverResponse', me.serverResponse);
     addListener('spinButtonPress', me.startAllReels);
-
+    addListener('reelSpinStopped', function(reelNum){
+        me.reels[reelNum] = 'stopped';
+        me.checkAllReelsStopped();
+    });
 }

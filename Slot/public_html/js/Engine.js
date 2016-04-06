@@ -60,7 +60,8 @@ stage.addChild(thing);
 
 reels.mask = thing;
 
-var spin = new SpinButton();
+var spin = new SButton(600,560,'spinButton');
+spin.init(stage);
 
 
 var spinModule = new SpinModule();
@@ -68,33 +69,33 @@ var server = new Server();
 
 var winField = new TextField();
 stage.addChild(winField.getRoot());
-stage.addChild(spin.getRoot());
-spin.button.on('mousedown', function(){
-
-    fireEvent('spinButtonPress');
-    spin.rootContainer.scale.x += 0.2;
-    spin.rootContainer.scale.y += 0.2;
-    spin.rootContainer.transparent;
-    //reel1.setPos(parseInt(Math.random()*20) + 1);
-    //reel2.setPos(parseInt(Math.random()*10) + 1);
-    //reel3.setPos(parseInt(Math.random()*10) + 1);
-    //reel4.setPos(parseInt(Math.random()*10) + 1);
-    //reel5.setPos(parseInt(Math.random()*10) + 1);
-});
-spin.button.on('mouseup', function(){
-    spin.rootContainer.scale.x -= 0.2;
-    spin.rootContainer.scale.y -= 0.2;
-});
-
-spin.button.on('mouseover', function(){
-    spin.rootContainer.scale.x += 0.3;
-    spin.rootContainer.scale.y += 0.3;
-});
-
-spin.button.on('mouseout', function(){
-    spin.rootContainer.scale.x -= 0.3;
-    spin.rootContainer.scale.y -= 0.3;
-});
+//stage.addChild(spin.getRoot());
+//spin.button.on('mousedown', function(){
+//
+//    fireEvent('spinButtonPress');
+//    spin.rootContainer.scale.x += 0.2;
+//    spin.rootContainer.scale.y += 0.2;
+//    spin.rootContainer.transparent;
+//    //reel1.setPos(parseInt(Math.random()*20) + 1);
+//    //reel2.setPos(parseInt(Math.random()*10) + 1);
+//    //reel3.setPos(parseInt(Math.random()*10) + 1);
+//    //reel4.setPos(parseInt(Math.random()*10) + 1);
+//    //reel5.setPos(parseInt(Math.random()*10) + 1);
+//});
+//spin.button.on('mouseup', function(){
+//    spin.rootContainer.scale.x -= 0.2;
+//    spin.rootContainer.scale.y -= 0.2;
+//});
+//
+//spin.button.on('mouseover', function(){
+//    spin.rootContainer.scale.x += 0.3;
+//    spin.rootContainer.scale.y += 0.3;
+//});
+//
+//spin.button.on('mouseout', function(){
+//    spin.rootContainer.scale.x -= 0.3;
+//    spin.rootContainer.scale.y -= 0.3;
+//});
 
 
 

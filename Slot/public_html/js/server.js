@@ -4,13 +4,13 @@ function Server () {
     var responseQueue = [
         {
             reels : [1,2,3,4,5],
-            win : 0,
-            winType : 'none'
+            win : 150,
+            winType : 'bigWin'
         },
         {
             reels : [2,3,2,1,0],
-            win : 0,
-            winType : 'none'
+            win : 50,
+            winType : 'smallWin'
         },
         {
             reels : [0,0,0,0,0],

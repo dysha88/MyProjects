@@ -62,6 +62,9 @@ function Reels (reelStrip, reelNum){
                 if(lastStep <= me.reelSpeed){
                     me.state = 'stopped';
 
+                    fireEvent('reelSpinStopped', me.reelNum);
+
+
                     currentPos += lastStep;
                 } else {
                     currentPos += me.reelSpeed;
