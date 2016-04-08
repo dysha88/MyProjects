@@ -2,7 +2,7 @@ function TextField(){
     var me = this;
     this.rootContainer = new PIXI.Container();
     me.rootContainer.position.x = 350;
-    me.rootContainer.position.y = 575;
+    me.rootContainer.position.y = 525;
     this.lastResponse = {};
     var style = {
         font : 'bold italic 30px Arial',
@@ -27,11 +27,15 @@ function TextField(){
     var graphics = new PIXI.Graphics();
     //graphics.lineStyle(2, 0x0000FF, 1);
     graphics.beginFill(0x228B22, 1);
-    graphics.drawRoundedRect(-10, -2, 200, 40);
+    graphics.drawRoundedRect(-40, -2, 250, 40);
+    graphics.endFill();
+    graphics.beginFill(0x228B22, 1);
+    graphics.drawRoundedRect(-40, 50, 250, 40);
     graphics.endFill();
     me.rootContainer.addChild(graphics);
 
     this.win = 0;
+    this.totalWin = 0;
 
     //addListener('reelSpinStopped', me.setWin);
 
@@ -39,37 +43,47 @@ function TextField(){
         me.lastResponse = response;
     };
 
-    var bigWin = new PIXI.Text('BigWin', style1);
+    var bigWin = new PIXI.Text('', style1);
     bigWin.position.x = 200;
     bigWin.position.y = -300;
-    //me.rootContainer.addChild(bigWin);
+    me.rootContainer.addChild(bigWin);
 
     this.winPresentation = function(){
         console.log(me.lastResponse.winType);
         if(me.lastResponse.winType == 'bigWin'){
             console.log(me.lastResponse.winType);
-            me.rootContainer.addChild(bigWin);
+            bigWin.text = '' + 'BigWin';
             //setTimeout(function(){
             //    me.rootContainer.removeChild(bigWin);
             //}, 10000);
         }
 
         if(me.lastResponse.winType == 'none'){
-
+            console.log(me.lastResponse.winType);
+            bigWin.text = '' + 'None';
         }
 
         if(me.lastResponse.winType == 'smallWin'){
-
+            console.log(me.lastResponse.winType);
+            bigWin.text = '' + 'SmallWin';
         }
 
     };
 
     var winFieldText = new PIXI.Text('WIN:', style);
+    winFieldText.position.x = -30;
     me.rootContainer.addChild(winFieldText);
+
+    var totalWinField = new PIXI.Text('Total win: ', style);
+    totalWinField.position.x = -30;
+    totalWinField.position.y = 50;
+    me.rootContainer.addChild(totalWinField);
 
     this.setWin = function(){
         me.win = me.lastResponse.win;
+        me.totalWin += me.lastResponse.win;
         winFieldText.text = 'WIN: ' + me.win;
+        totalWinField.text = 'Total win: ' + me.totalWin;
         console.log(me.win);
     };
 
