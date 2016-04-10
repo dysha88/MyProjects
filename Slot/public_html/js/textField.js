@@ -49,7 +49,7 @@ function TextField(){
     me.rootContainer.addChild(bigWin);
 
     this.winPresentation = function(){
-        console.log(me.lastResponse.winType);
+        //console.log(me.lastResponse.winType);
         if(me.lastResponse.winType == 'bigWin'){
             console.log(me.lastResponse.winType);
             bigWin.text = '' + 'BigWin';
@@ -70,14 +70,22 @@ function TextField(){
 
     };
 
-    var winFieldText = new PIXI.Text('WIN:', style);
+    var winFieldText = new PIXI.Text('WIN: ', style);
     winFieldText.position.x = -30;
+    winFieldText.text = 'WIN: ' + 0;
     me.rootContainer.addChild(winFieldText);
 
     var totalWinField = new PIXI.Text('Total win: ', style);
     totalWinField.position.x = -30;
     totalWinField.position.y = 50;
+    totalWinField.text = 'Total win: ' + 0;
     me.rootContainer.addChild(totalWinField);
+
+    this.clearTexture = function(){
+        bigWin.text = '';
+        winFieldText.text = 'WIN: ' + '0';
+
+    };
 
     this.setWin = function(){
         me.win = me.lastResponse.win;
@@ -98,5 +106,6 @@ function TextField(){
     addListener('serverResponse', me.serverResponse);
     addListener('allReelsStopped', me.setWin);
     addListener('allReelsStopped', me.winPresentation);
+    addListener('spinButtonPress', me.clearTexture);
 
 }

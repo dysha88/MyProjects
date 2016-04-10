@@ -33,10 +33,10 @@ function Server () {
         //xhr.send();
 
         me.response(responseQueue[queueIndex++]);
-        console.log(params);
+        //console.log(params);
     };
     this.response = function(response){
-        console.log(response);
+        //console.log(response);
         fireEvent('serverResponse', response);
     };
     addListener('serverRequest', me.request);

@@ -48,21 +48,15 @@ reels.position.y = GAMECONFIG.reelsOffsetY;
 
 stage.addChild(reels);
 
-var thing = new PIXI.Graphics();
-thing.position.x = GAMECONFIG.reelsOffsetX - 30;
-thing.position.y = GAMECONFIG.reelsOffsetY - 30;
-//thing.clear();
-thing.beginFill();
-//thing.drawRect(area.position.x - 10, area.position.y, area.width, area.height - 10);
-thing.drawRect(0, 30, 950, 465);
-thing.endFill();
-stage.addChild(thing);
+var mask = new Mask();
+mask.init(stage, reels);
 
-reels.mask = thing;
 
-var spin = new SButton(600,560,'spinButton');
-spin.init(stage);
+var spinButton = new SpinButton();
+spinButton.init(stage);
 
+var infoButton = new InfoButton();
+infoButton.init(stage);
 
 var spinModule = new SpinModule();
 var server = new Server();
