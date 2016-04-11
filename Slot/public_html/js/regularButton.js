@@ -1,13 +1,19 @@
-function RegularButton (x, y, url){
+function RegularButton(x, y, url) {
     var me = this;
+
+    this.enabled = true;
     this.state = 'up';
-    this.init = function(stage) {
+    this.init = function (stage) {
         var rootContainer = new PIXI.Container();
         rootContainer.position.x = x;
         rootContainer.position.y = y;
         var button1 = new PIXI.Sprite.fromImage(url);
         var button2 = new PIXI.Sprite.fromImage(url);
         var button3 = new PIXI.Sprite.fromImage(url);
+
+        button1.anchor.set(0.5);
+        button2.anchor.set(0.5);
+        button3.anchor.set(0.5);
 
         rootContainer.addChild(button1);
         rootContainer.addChild(button2);
@@ -28,53 +34,64 @@ function RegularButton (x, y, url){
         stage.addChild(rootContainer);
     };
 
-    this.onMouseDown = function(){
-        me.onMouseDownCallback();
-        me.state = 'down';
-        me.downImage.visible = true;
-        me.upImage.visible = false;
-        me.hoverImage.visible = false;
-        me.downImage.alpha = 0.5;
+    this.enable = function () {
+        me.enabled = true;
     };
-    this.onMouseUp = function(){
-        me.onMouseUpCallback();
-        me.state = 'up';
-        me.downImage.visible = false;
-        me.upImage.visible = true;
-        me.hoverImage.visible = false;
+
+    this.disable = function () {
+        me.enabled = false;
+    };
+
+    this.onMouseDown = function () {
+        if (me.enabled == true) {
+            me.onMouseDownCallback();
+            me.state = 'down';
+            me.downImage.visible = true;
+            me.upImage.visible = false;
+            me.hoverImage.visible = false;
+            me.downImage.alpha = 0.5;
+        }
 
     };
-    this.onMouseOver = function(){
-
-        me.state = 'hover';
-        me.downImage.visible = false;
-        me.upImage.visible = false;
-        me.hoverImage.visible = true;
-        //me.hoverImage.scale.x += 0.2;
-        //me.hoverImage.scale.y += 0.2;
-        me.onMouseOverCallback();
+    this.onMouseUp = function () {
+        if (me.enabled == true) {
+            me.onMouseUpCallback();
+            me.state = 'up';
+            me.downImage.visible = false;
+            me.upImage.visible = true;
+            me.hoverImage.visible = false;
+        }
 
     };
-    this.onMouseOut = function(){
+    this.onMouseOver = function () {
+        if(me.enabled == true) {
+            me.state = 'hover';
+            me.downImage.visible = false;
+            me.upImage.visible = false;
+            me.hoverImage.visible = true;
+            me.hoverImage.scale.x = 1.2;
+            me.hoverImage.scale.y = 1.2;
+            me.onMouseOverCallback();
+        }
+    };
+    this.onMouseOut = function () {
         me.onMouseOutCallback();
         me.state = 'up';
         me.downImage.visible = false;
         me.upImage.visible = true;
         me.hoverImage.visible = false;
-        //me.upImage.scale.x = 0;
-        //me.upImage.scale.y = 0;
     };
 
-    this.onMouseDownCallback = function(){
+    this.onMouseDownCallback = function () {
 
     };
-    this.onMouseUpCallback = function(){
+    this.onMouseUpCallback = function () {
 
     };
-    this.onMouseOverCallback = function(){
+    this.onMouseOverCallback = function () {
 
     };
-    this.onMouseOutCallback = function(){
+    this.onMouseOutCallback = function () {
 
     };
 

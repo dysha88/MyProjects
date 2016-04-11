@@ -1,16 +1,15 @@
 function SpinButton(){
     var me = this;
     var rootContainer = new PIXI.Container();
-    rootContainer.position.x = 0;
-    rootContainer.position.y = 0;
+    rootContainer.position.x = 10;
+    rootContainer.position.y = 10;
 
     var spin = new RegularButton(600,560,'images/spinButton.png');
     spin.init(rootContainer);
-    spin.onMouseDownCallback = function(){
-        console.log(spin.state);
-        if(spin.state !== 'disabled'){
+    spin.onMouseUpCallback = function(){
+
             fireEvent('spinButtonPress');
-        }
+            me.buttonDisable();
     };
 
     this.rootContainer = rootContainer;
@@ -20,16 +19,14 @@ function SpinButton(){
     };
 
     this.buttonDisable = function(){
-        spin.rootContainer.interactive = false;
+        spin.disable();
     };
 
     this.buttonEnable = function(){
-        spin.rootContainer.interactive = true;
-        spin.downImage.alpha = 1;
-
+        spin.enable();
 
     };
 
-    addListener('spinButtonPress', me.buttonDisable);
+
     addListener('allReelsStopped', me.buttonEnable);
 }
