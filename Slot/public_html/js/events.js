@@ -5,7 +5,10 @@ var events = {
     allReelsStopped: [],
     spinButtonPress: [],
     serverRequest : [],
-    serverResponse : []
+    serverResponse : [],
+    showBetLine : [],
+    hideBetLine : [],
+    hideAllBetLines : []
 };
 
 function addListener(eventName, functionCallback) {

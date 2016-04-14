@@ -52,7 +52,7 @@ function TextField(){
         //console.log(me.lastResponse.winType);
         if(me.lastResponse.winType == 'bigWin'){
             console.log(me.lastResponse.winType);
-            bigWin.text = '' + 'BigWin';
+            bigWin.text = '' + me.lastResponse.winType;
             //setTimeout(function(){
             //    me.rootContainer.removeChild(bigWin);
             //}, 10000);
@@ -60,12 +60,12 @@ function TextField(){
 
         if(me.lastResponse.winType == 'none'){
             console.log(me.lastResponse.winType);
-            bigWin.text = '' + 'None';
+            bigWin.text = '' + me.lastResponse.winType;
         }
 
         if(me.lastResponse.winType == 'smallWin'){
             console.log(me.lastResponse.winType);
-            bigWin.text = '' + 'SmallWin';
+            bigWin.text = '' + me.lastResponse.winType;
         }
 
     };
