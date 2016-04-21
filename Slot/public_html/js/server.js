@@ -72,6 +72,11 @@ function Server () {
 
 
         //All comments bellow describes in following 'for'
+        var winSym0 = [];
+        var winSym1 = [];
+        var winSym2 = [];
+        var winSym3 = [];
+        var winSym4 = [];
         var winSym = [];
         var win = [];
         var reelStopPos = [];
@@ -82,20 +87,72 @@ function Server () {
             response.reels.push(reelStopPos[i]);
             //winSym.push(GAMECONFIG.reelStrip[i][reelStopPos[i]]);
         }
-        win.push(winSym);
+
+        for(i = 0; i < GAMECONFIG.reelStrip.length; i++){
+            for(j = 0; j < GAMECONFIG.row; j++){
+                winSym[j] = GAMECONFIG.reelStrip[i][reelStopPos[i] + j];
+            }
+            win.push(winSym);
+        }
+
+//        var win = [];
+//        var winSum = [];
+//        for(var i =0; i < 5; i++){
+//            for(var j = 0; j < 3; j++){
+//                win[j] = 1+j;
+//            }
+//            winSum.push(win);
+//
+//        }
+//
+////console.log(win);
+//        console.log(winSum);
+
 
         //for(i = 0; i < GAMECONFIG.reelStrip.length; i++ ){
         //    for(j = 0; j < GAMECONFIG.row; j++){
-        //        winSym.push(GAMECONFIG.reelStrip[0][reelStopPos[0] + j]);
+        //        winSym1.push(GAMECONFIG.reelStrip[i][reelStopPos[i] + j]);
+        //        winSym2.push(GAMECONFIG.reelStrip[i][reelStopPos[i] + j]);
+        //        winSym3.push(GAMECONFIG.reelStrip[i][reelStopPos[i] + j]);
+        //        winSym4.push(GAMECONFIG.reelStrip[i][reelStopPos[i] + j]);
+        //        winSym5.push(GAMECONFIG.reelStrip[i][reelStopPos[i] + j]);
         //    }
-        //    win.push(winSym[i]);
+        //    winSym.push(winSym1);
+        //    winSym.push(winSym2);
+        //    winSym.push(winSym3);
+        //    winSym.push(winSym4);
+        //    winSym.push(winSym5);
+        ////    win.push(winSym);
         //    //winSym.splice(0, GAMECONFIG.row);
         //
         //}
 
-        for(i = 0; i < GAMECONFIG.reelStrip.length; i++){
-            winSym.push();
-        }
+        //reelStopPos[0] = 24;
+        //
+        //console.log(reelStopPos[0]);
+        //console.log(response.reels);
+        //
+        //for(i = 0; i < GAMECONFIG.row; i++){
+        //
+        //    if(GAMECONFIG.reelStrip[0].length > reelStopPos[0] + i) {
+        //        winSym0.push(GAMECONFIG.reelStrip[0][reelStopPos[0] + i]);
+        //        winSym1.push(GAMECONFIG.reelStrip[1][reelStopPos[1] + i]);
+        //        winSym2.push(GAMECONFIG.reelStrip[2][reelStopPos[2] + i]);
+        //        winSym3.push(GAMECONFIG.reelStrip[3][reelStopPos[3] + i]);
+        //        winSym4.push(GAMECONFIG.reelStrip[4][reelStopPos[4] + i]);
+        //    } else {
+        //        winSym0.push(GAMECONFIG.reelStrip[0][i]);
+        //        winSym1.push(GAMECONFIG.reelStrip[1][i]);
+        //        winSym2.push(GAMECONFIG.reelStrip[2][i]);
+        //        winSym3.push(GAMECONFIG.reelStrip[3][i]);
+        //        winSym4.push(GAMECONFIG.reelStrip[4][i]);
+        //    }
+        //}
+        //winSym.push(winSym0);
+        //winSym.push(winSym1);
+        //winSym.push(winSym2);
+        //winSym.push(winSym3);
+        //winSym.push(winSym4);
 
 
         console.log(win);
