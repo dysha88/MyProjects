@@ -64,6 +64,9 @@ var server = new Server();
 
 var winField = new TextField();
 stage.addChild(winField.getRoot());
+
+var betLines = new BetLines();
+stage.addChild(betLines.getRoot());
 //stage.addChild(spin.getRoot());
 //spin.button.on('mousedown', function(){
 //

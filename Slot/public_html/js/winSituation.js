@@ -8,7 +8,7 @@ function WinSituation(){
     this.showWinBetLines = function(){
         for(var i = 0; i < me.lastResponse.betLines.length; i++){
 
-            fireEvent('showBetLine', );
+            fireEvent('showBetLine', x);
 
         setTimeout(me.hideBetLine, 10000);
     };
