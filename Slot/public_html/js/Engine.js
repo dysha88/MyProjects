@@ -67,6 +67,9 @@ stage.addChild(winField.getRoot());
 
 var betLines = new BetLines();
 stage.addChild(betLines.getRoot());
+
+var betIndicator = new BetIndicators();
+stage.addChild(betIndicator.getRoot());
 //stage.addChild(spin.getRoot());
 //spin.button.on('mousedown', function(){
 //
