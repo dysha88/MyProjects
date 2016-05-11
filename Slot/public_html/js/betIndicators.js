@@ -1,28 +1,80 @@
 function BetIndicators(){
     var me = this;
-    this.rootContainer = new PIXI.Container;
-    me.rootContainer.position.x = 0;
-    me.rootContainer.position.y = 0;
+    var rootContainer = new PIXI.Container;
+    rootContainer.position.x = 0;
+    rootContainer.position.y = 0;
 
-    this.getRoot = function(){
-        return me.rootContainer;
+    this.betIndicators = [];
+
+    this.rootContainer = rootContainer;
+
+    this.init = function(stage){
+        stage.addChild(rootContainer);
+    };
+    var i;
+
+    this.createIndicators = function(params){
+        var style = {font : '13px Arial Black', stroke : '#4a1850', fill : '#F7EDCA'};
+
+
+        var betIndicator = new PIXI.Graphics;
+        betIndicator.lineStyle(3, '0xffff99');
+        betIndicator.beginFill(params.color, params.transparent);
+        betIndicator.drawCircle(params.x, params.y ,params.r);
+        betIndicator.endFill();
+
+        var betNum = new PIXI.Text(params.text, style);
+        betNum.position.x = params.x1;
+        betNum.position.y = params.y1;
+
+        var indicators = new PIXI.Container;
+        indicators.addChild(betIndicator);
+        indicators.addChild(betNum);
+
+        return indicators;
+
+
     };
 
-    var betIndicator1 = new PIXI.Graphics;
-    betIndicator1.beginFill(0x228B22, 1);
-    //betIndicator1.lineStyle(2, 0x228B22);
-    //betIndicator1.moveTo(130, 100);
-    betIndicator1.drawCircle(100, 100 ,10);
-    betIndicator1.endFill();
-    me.rootContainer.addChild(betIndicator1);
+    for(i = 0; i < GAMECONFIG.betIndicators.length; i++){
+        me.betIndicators[i] = new PIXI.Container;
+        me.betIndicators[i].addChild(me.createIndicators(GAMECONFIG.betIndicators[i]));
+    }
 
-    var style = {font : '18px Arial', stroke : '#4a1850', fill : '#F7EDCA'};
+    for(i = 0; i < me.betIndicators.length; i++){
+        me.rootContainer.addChild(me.betIndicators[i]);
+    }
 
-    var betNum1 = new PIXI.Text('1', style);
-    betNum1.position.x = 95;
-    betNum1.position.y = 90;
-    //betNum1.text = '1';
-    me.rootContainer.addChild(betNum1);
+    this.hideAllIndicators = function(){
+        for(i = 0; i < me.betIndicators.length; i++){
+        me.betIndicators[i].visible = false;
+        }
+    };
 
+    me.hideAllIndicators();
+
+    this.showBetIndicators = function(showIndNum){
+        me.betIndicators[showIndNum].visible = true;
+    };
+
+    this.hideBetIndicators = function(){
+        for(i = 0; i < me.betIndicators.length; i++){
+            me.betIndicators[i].visible = false;
+        }
+    };
+
+    this.showAllIndicators = function(){
+        for(i = 0; i < me.betIndicators.length; i++){
+            me.betIndicators[i].visible = true;
+        }
+        setTimeout(me.hideAllIndicators, 5000);
+    };
+
+    //me.showAllIndicators();
+
+    addListener('showBetLine', me.showBetIndicators);
+    addListener('hideBetLine', me.hideBetIndicators);
+    addListener('spinButtonPress', me.hideAllIndicators);
+    addListener('setMaxBet', me.showAllIndicators);
 
 }

@@ -4,11 +4,23 @@ var events = {
     reelSpinStopped: [],
     allReelsStopped: [],
     spinButtonPress: [],
+    stopButtonPress: [],
     serverRequest : [],
     serverResponse : [],
     showBetLine : [],
     hideBetLine : [],
-    hideAllBetLines : []
+    reelsState : [],
+    hideAllBetLines : [],
+    setMaxBet : [],
+    maxBetButtonPress : [],
+    increasedBetLevel : [],
+    decreasedBetLevel : [],
+    increasedCoinValue : [],
+    decreasedCoinValue : [],
+    setGameSettings : [],
+    settingsRequest : [],
+    settingsResponse : [],
+    betLevelBars : []
 };
 
 function addListener(eventName, functionCallback) {
@@ -17,7 +29,7 @@ function addListener(eventName, functionCallback) {
 
 
 function fireEvent(eventName, params) {
-    console.error(eventName);
+    //console.error(eventName);
     for (var i = 0; i < events[eventName].length; i++) {
         events[eventName][i](params);
     }

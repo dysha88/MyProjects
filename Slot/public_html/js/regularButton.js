@@ -3,10 +3,14 @@ function RegularButton(x, y, url) {
 
     this.enabled = true;
     this.state = 'up';
+    var rootContainer = new PIXI.Container();
+    rootContainer.position.x = x;
+    rootContainer.position.y = y;
+
+    this.rootContainer = rootContainer;
+
     this.init = function (stage) {
-        var rootContainer = new PIXI.Container();
-        rootContainer.position.x = x;
-        rootContainer.position.y = y;
+
         var button1 = new PIXI.Sprite.fromImage(url);
         var button2 = new PIXI.Sprite.fromImage(url);
         var button3 = new PIXI.Sprite.fromImage(url);
@@ -14,6 +18,7 @@ function RegularButton(x, y, url) {
         button1.anchor.set(0.5);
         button2.anchor.set(0.5);
         button3.anchor.set(0.5);
+
 
         rootContainer.addChild(button1);
         rootContainer.addChild(button2);
@@ -27,7 +32,6 @@ function RegularButton(x, y, url) {
         rootContainer.on('mouseout', me.onMouseOut);
 
 
-        this.rootContainer = rootContainer;
         this.upImage = button1;
         this.downImage = button2;
         this.hoverImage = button3;
@@ -36,10 +40,21 @@ function RegularButton(x, y, url) {
 
     this.enable = function () {
         me.enabled = true;
+
+    };
+
+    this.scale = function(params){
+        me.upImage.scale.x = params;
+        me.upImage.scale.y = params;
+        me.downImage.scale.x = params;
+        me.downImage.scale.y = params;
+        me.hoverImage.scale.x = params;
+        me.hoverImage.scale.y = params;
     };
 
     this.disable = function () {
         me.enabled = false;
+        //me.rootContainer.alpha = 0.5;
     };
 
     this.onMouseDown = function () {
@@ -69,8 +84,8 @@ function RegularButton(x, y, url) {
             me.downImage.visible = false;
             me.upImage.visible = false;
             me.hoverImage.visible = true;
-            me.hoverImage.scale.x = 1.2;
-            me.hoverImage.scale.y = 1.2;
+            me.hoverImage.scale.x = 1.3;
+            me.hoverImage.scale.y = 1.3;
             me.onMouseOverCallback();
         }
     };

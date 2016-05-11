@@ -6,15 +6,18 @@ function WinSituation(){
     };
 
     this.showWinBetLines = function(){
-        for(var i = 0; i < me.lastResponse.betLines.length; i++){
+        for(var i = 0; i < me.lastResponse.betLines.length; i++) {
 
-            fireEvent('showBetLine', x);
+            fireEvent('showBetLine', me.lastResponse.betLines[i]);
+            //console.log(me.lastResponse.betLines[i]);
 
-        setTimeout(me.hideBetLine, 10000);
+            setTimeout(me.hideBetLine, 3000);
+        }
     };
 
     this.hideBetLine = function(){
-        fireEvent('hideBetLine');
+        //console.log(betLine);
+        fireEvent('hideBetLine', me.lastResponse.betLines);
     };
 
     addListener('serverResponse', me.serverResponse);

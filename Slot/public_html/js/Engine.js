@@ -19,10 +19,6 @@ stage.addChild(back);
 //stage.addChild(back1);
 
 var reels = new PIXI.Container();
-var area = new PIXI.Sprite.fromImage('images/reelsArea.png');
-area.position.x = GAMECONFIG.reelsOffsetX - 30;
-area.position.y = GAMECONFIG.reelsOffsetY - 30;
-stage.addChild(area);
 
 var reel1 = new Reels(GAMECONFIG.reelStrip[0], 0);
 reels.addChild(reel1.getRoot());
@@ -51,25 +47,49 @@ stage.addChild(reels);
 var mask = new Mask();
 mask.init(stage, reels);
 
+var infoButton = new InfoButton();
+infoButton.init(stage);
+
+var area = new PIXI.Sprite.fromImage('images/reelsArea.png');
+area.position.x = GAMECONFIG.reelsOffsetX - 30;
+area.position.y = GAMECONFIG.reelsOffsetY - 30;
+stage.addChild(area);
 
 var spinButton = new SpinButton();
 spinButton.init(stage);
 
-var infoButton = new InfoButton();
-infoButton.init(stage);
+var autoplayButton = new AutoplayButton();
+autoplayButton.init(stage);
 
-var spinModule = new SpinModule();
-var server = new Server();
+var maxBetButton = new MaxBetButton();
+maxBetButton.init(stage);
 
+var betLevelButtons = new BetLevelButtons();
+betLevelButtons.init(stage);
 
-var winField = new TextField();
-stage.addChild(winField.getRoot());
+var coinValueButtons = new CoinValueButton();
+coinValueButtons.init(stage);
 
 var betLines = new BetLines();
 stage.addChild(betLines.getRoot());
 
 var betIndicator = new BetIndicators();
-stage.addChild(betIndicator.getRoot());
+betIndicator.init(stage);
+
+var gameSettings = new GameSettings();
+var spinModule = new SpinModule();
+var server = new Server();
+var winSituation = new WinSituation();
+
+var loader = new Loader();
+loader.init(stage);
+
+var winField = new TextField();
+winField.init(stage);
+
+
+
+
 //stage.addChild(spin.getRoot());
 //spin.button.on('mousedown', function(){
 //

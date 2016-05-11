@@ -50,14 +50,17 @@ function Reels (reelStrip, reelNum){
 
     this.update = function () {
     var currentPos = me.rootContainer.position.y;
+
     var lastStep;
 
-        if(me.state=='stopped'){
+        if(me.state == 'stopped'){
             return true;
         }
 
         if(me.state == 'stopping'){
-            if(currentPos < me.stopPos ){
+            //console.log(currentPos);
+            //console.log(me.stopPos);
+            if(currentPos <= me.stopPos ){
                 lastStep = me.stopPos - currentPos;
                 if(lastStep <= me.reelSpeed){
                     me.state = 'stopped';
@@ -67,11 +70,10 @@ function Reels (reelStrip, reelNum){
 
                     currentPos += lastStep;
                 } else {
-                    currentPos += me.reelSpeed;
+                    currentPos = me.stopPos;
                 }
-                //me.setPos(parseInt(Math.random()*20) + 1);
             } else {
-                currentPos += me.reelSpeed;
+                currentPos = me.stopPos;
             }
         }
 
